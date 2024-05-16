@@ -1,0 +1,64 @@
+{
+  "applications": "*",
+  "changelogDate": "20240516144544",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "article",
+  "fields": [
+    {
+      "fieldName": "modele",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "largeurPneus",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "hauteurPneus",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "typePneus",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "diametre",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "photo",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "dateCreation",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Article",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "tarif",
+      "otherEntityRelationshipName": "articles",
+      "relationshipName": "tarifs",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "lignesBordereau",
+      "otherEntityRelationshipName": "articles",
+      "relationshipName": "lignesBordereau",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "detailsDemande",
+      "otherEntityRelationshipName": "articles",
+      "relationshipName": "detailsDemandes",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

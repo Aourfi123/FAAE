@@ -1,0 +1,35 @@
+{
+  "applications": "*",
+  "changelogDate": "20240516144546",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "societe_commerciale",
+  "fields": [
+    {
+      "fieldName": "codePays",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "libelle",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "devise",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "SocieteCommerciale",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "reduction",
+      "otherEntityRelationshipName": "societeCommercial",
+      "relationshipName": "societeCommerciale",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

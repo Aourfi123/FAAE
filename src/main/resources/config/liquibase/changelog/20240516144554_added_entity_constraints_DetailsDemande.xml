@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!--
+        Added the constraints for entity DetailsDemande.
+    -->
+    <changeSet id="20240516144554-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="articles_id"
+                                 baseTableName="details_demande"
+                                 constraintName="fk_details_demande__articles_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="article"/>
+
+        <addForeignKeyConstraint baseColumnNames="demande_remboursements_id"
+                                 baseTableName="details_demande"
+                                 constraintName="fk_details_demande__demande_remboursements_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="demande_rembourssement"/>
+    </changeSet>
+</databaseChangeLog>

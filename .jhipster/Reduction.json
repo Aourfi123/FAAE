@@ -1,0 +1,49 @@
+{
+  "applications": "*",
+  "changelogDate": "20240516144557",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "reduction",
+  "fields": [
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "typeOperation",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pourcentage",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "dateDebut",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "dateFin",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Reduction",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "societeCommerciale",
+      "otherEntityRelationshipName": "societeCommerciale",
+      "relationshipName": "societeCommercial",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "tarif",
+      "otherEntityRelationshipName": "reductions",
+      "relationshipName": "tarifs",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

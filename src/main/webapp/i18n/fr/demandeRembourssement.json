@@ -1,0 +1,29 @@
+{
+  "faeApp": {
+    "demandeRembourssement": {
+      "home": {
+        "title": "DemandeRembourssements",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Demande Rembourssement",
+        "createOrEditLabel": "Créer ou éditer un Demande Rembourssement",
+        "notFound": "Aucun Demande Rembourssement trouvé"
+      },
+      "created": "Un nouveau Demande Rembourssement a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Demande Rembourssement avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Demande Rembourssement avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Demande Rembourssement {{ id }} ?"
+      },
+      "detail": {
+        "title": "Demande Rembourssement"
+      },
+      "id": "ID",
+      "raison": "Raison",
+      "pieceJointe": "Piece Jointe",
+      "etat": "Etat",
+      "dateCreation": "Date Creation",
+      "dateModification": "Date Modification",
+      "detailsDemandes": "Details Demandes"
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "applications": "*",
+  "changelogDate": "20240516144547",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "document",
+  "fields": [
+    {
+      "fieldName": "code",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "reference",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "montantTotal",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "dateCreation",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "dateModification",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Document",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "avoir",
+      "otherEntityRelationshipName": "document",
+      "ownerSide": false,
+      "relationshipName": "avoir",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "facture",
+      "otherEntityRelationshipName": "document",
+      "ownerSide": false,
+      "relationshipName": "facture",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "lignesDocument",
+      "otherEntityRelationshipName": "documents",
+      "relationshipName": "lignesDocuments",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

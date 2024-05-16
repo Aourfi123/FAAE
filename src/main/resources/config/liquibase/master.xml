@@ -11,7 +11,32 @@
     <property name="datetimeType" value="datetime(6)" dbms="mysql"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240516144544_added_entity_Article.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240516144545_added_entity_Tarif.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240516144546_added_entity_SocieteCommerciale.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240516144547_added_entity_Document.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240516144548_added_entity_Facture.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240516144549_added_entity_Avoir.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240516144550_added_entity_Client.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240516144551_added_entity_Paiement.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240516144552_added_entity_Bordereau.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240516144553_added_entity_DemandeRembourssement.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240516144554_added_entity_DetailsDemande.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240516144555_added_entity_LignesBordereau.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240516144556_added_entity_LignesDocument.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240516144557_added_entity_Reduction.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240516144558_added_entity_ClientBordereau.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20240516144545_added_entity_constraints_Tarif.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240516144548_added_entity_constraints_Facture.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240516144549_added_entity_constraints_Avoir.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240516144550_added_entity_constraints_Client.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240516144551_added_entity_constraints_Paiement.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240516144554_added_entity_constraints_DetailsDemande.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240516144555_added_entity_constraints_LignesBordereau.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240516144556_added_entity_constraints_LignesDocument.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240516144557_added_entity_constraints_Reduction.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240516144558_added_entity_constraints_ClientBordereau.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

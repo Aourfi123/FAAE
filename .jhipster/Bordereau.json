@@ -1,0 +1,55 @@
+{
+  "applications": "*",
+  "changelogDate": "20240516144552",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "bordereau",
+  "fields": [
+    {
+      "fieldName": "reference",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "etat",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "montantTotal",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "dateCreation",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "dateModification",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Bordereau",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "clientBordereau",
+      "otherEntityRelationshipName": "bordereaus",
+      "relationshipName": "clientBordereaus",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "lignesBordereau",
+      "otherEntityRelationshipName": "bordereaus",
+      "relationshipName": "lignesBordereaus",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "lignesDocument",
+      "otherEntityRelationshipName": "bordereaus",
+      "relationshipName": "lignesDocuments",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

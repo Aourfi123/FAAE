@@ -1,0 +1,28 @@
+{
+  "applications": "*",
+  "changelogDate": "20240516144549",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "avoir",
+  "fields": [
+    {
+      "fieldName": "code",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Avoir",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "document",
+      "otherEntityRelationshipName": "avoir",
+      "ownerSide": true,
+      "relationshipName": "document",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "service": "no"
+}

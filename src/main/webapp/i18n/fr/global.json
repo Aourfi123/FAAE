@@ -7,6 +7,21 @@
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entités",
+        "article": "Article",
+        "tarif": "Tarif",
+        "societeCommerciale": "Societe Commerciale",
+        "document": "Document",
+        "facture": "Facture",
+        "avoir": "Avoir",
+        "client": "Client",
+        "paiement": "Paiement",
+        "bordereau": "Bordereau",
+        "demandeRembourssement": "Demande Rembourssement",
+        "detailsDemande": "Details Demande",
+        "lignesBordereau": "Lignes Bordereau",
+        "lignesDocument": "Lignes Document",
+        "reduction": "Reduction",
+        "clientBordereau": "Client Bordereau",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

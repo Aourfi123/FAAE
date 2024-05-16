@@ -1,0 +1,30 @@
+{
+  "faeApp": {
+    "reduction": {
+      "home": {
+        "title": "Reductions",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Reduction",
+        "createOrEditLabel": "Créer ou éditer un Reduction",
+        "notFound": "Aucun Reduction trouvé"
+      },
+      "created": "Un nouveau Reduction a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Reduction avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Reduction avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Reduction {{ id }} ?"
+      },
+      "detail": {
+        "title": "Reduction"
+      },
+      "id": "ID",
+      "description": "Description",
+      "typeOperation": "Type Operation",
+      "pourcentage": "Pourcentage",
+      "dateDebut": "Date Debut",
+      "dateFin": "Date Fin",
+      "societeCommercial": "Societe Commercial",
+      "tarifs": "Tarifs"
+    }
+  }
+}

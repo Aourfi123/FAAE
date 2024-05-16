@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!--
+        Added the constraints for entity Tarif.
+    -->
+    <changeSet id="20240516144545-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="reductions_id"
+                                 baseTableName="tarif"
+                                 constraintName="fk_tarif__reductions_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="reduction"/>
+
+        <addForeignKeyConstraint baseColumnNames="articles_id"
+                                 baseTableName="tarif"
+                                 constraintName="fk_tarif__articles_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="article"/>
+    </changeSet>
+</databaseChangeLog>

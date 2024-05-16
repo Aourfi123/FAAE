@@ -1,0 +1,27 @@
+{
+  "faeApp": {
+    "societeCommerciale": {
+      "home": {
+        "title": "SocieteCommerciales",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Societe Commerciale",
+        "createOrEditLabel": "Créer ou éditer un Societe Commerciale",
+        "notFound": "Aucun Societe Commerciale trouvé"
+      },
+      "created": "Un nouveau Societe Commerciale a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Societe Commerciale avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Societe Commerciale avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Societe Commerciale {{ id }} ?"
+      },
+      "detail": {
+        "title": "Societe Commerciale"
+      },
+      "id": "ID",
+      "codePays": "Code Pays",
+      "libelle": "Libelle",
+      "devise": "Devise",
+      "societeCommerciale": "Societe Commerciale"
+    }
+  }
+}

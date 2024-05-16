@@ -1,0 +1,28 @@
+{
+  "faeApp": {
+    "lignesBordereau": {
+      "home": {
+        "title": "LignesBordereaus",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Lignes Bordereau",
+        "createOrEditLabel": "Créer ou éditer un Lignes Bordereau",
+        "notFound": "Aucun Lignes Bordereau trouvé"
+      },
+      "created": "Un nouveau Lignes Bordereau a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Lignes Bordereau avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Lignes Bordereau avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Lignes Bordereau {{ id }} ?"
+      },
+      "detail": {
+        "title": "Lignes Bordereau"
+      },
+      "id": "ID",
+      "quantite": "Quantite",
+      "dateDebut": "Date Debut",
+      "dateFin": "Date Fin",
+      "bordereaus": "Bordereaus",
+      "articles": "Articles"
+    }
+  }
+}

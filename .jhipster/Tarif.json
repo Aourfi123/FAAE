@@ -1,0 +1,37 @@
+{
+  "applications": "*",
+  "changelogDate": "20240516144545",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "tarif",
+  "fields": [
+    {
+      "fieldName": "dateDebut",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "dateFin",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Tarif",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "reduction",
+      "otherEntityRelationshipName": "tarifs",
+      "relationshipName": "reductions",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "article",
+      "otherEntityRelationshipName": "tarifs",
+      "relationshipName": "articles",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

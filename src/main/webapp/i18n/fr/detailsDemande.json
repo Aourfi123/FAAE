@@ -1,0 +1,27 @@
+{
+  "faeApp": {
+    "detailsDemande": {
+      "home": {
+        "title": "DetailsDemandes",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Details Demande",
+        "createOrEditLabel": "Créer ou éditer un Details Demande",
+        "notFound": "Aucun Details Demande trouvé"
+      },
+      "created": "Un nouveau Details Demande a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Details Demande avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Details Demande avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Details Demande {{ id }} ?"
+      },
+      "detail": {
+        "title": "Details Demande"
+      },
+      "id": "ID",
+      "quantite": "Quantite",
+      "etat": "Etat",
+      "articles": "Articles",
+      "demandeRemboursements": "Demande Remboursements"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "faeApp": {
+    "avoir": {
+      "home": {
+        "title": "Avoirs",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Avoir",
+        "createOrEditLabel": "Créer ou éditer un Avoir",
+        "notFound": "Aucun Avoir trouvé"
+      },
+      "created": "Un nouveau Avoir a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Avoir avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Avoir avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Avoir {{ id }} ?"
+      },
+      "detail": {
+        "title": "Avoir"
+      },
+      "id": "ID",
+      "code": "Code",
+      "document": "Document"
+    }
+  }
+}

@@ -48,6 +48,32 @@ public class CacheConfiguration {
             createCache(cm, com.mycompany.myapp.domain.User.class.getName());
             createCache(cm, com.mycompany.myapp.domain.Authority.class.getName());
             createCache(cm, com.mycompany.myapp.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.mycompany.myapp.domain.Article.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.Article.class.getName() + ".tarifs");
+            createCache(cm, com.mycompany.myapp.domain.Article.class.getName() + ".lignesBordereaus");
+            createCache(cm, com.mycompany.myapp.domain.Article.class.getName() + ".detailsDemandes");
+            createCache(cm, com.mycompany.myapp.domain.Tarif.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.SocieteCommerciale.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.SocieteCommerciale.class.getName() + ".societeCommerciales");
+            createCache(cm, com.mycompany.myapp.domain.Document.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.Document.class.getName() + ".lignesDocuments");
+            createCache(cm, com.mycompany.myapp.domain.Facture.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.Avoir.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.Client.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.Client.class.getName() + ".clientBordereaus");
+            createCache(cm, com.mycompany.myapp.domain.Paiement.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.Bordereau.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.Bordereau.class.getName() + ".clientBordereaus");
+            createCache(cm, com.mycompany.myapp.domain.Bordereau.class.getName() + ".lignesBordereaus");
+            createCache(cm, com.mycompany.myapp.domain.Bordereau.class.getName() + ".lignesDocuments");
+            createCache(cm, com.mycompany.myapp.domain.DemandeRembourssement.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.DemandeRembourssement.class.getName() + ".detailsDemandes");
+            createCache(cm, com.mycompany.myapp.domain.DetailsDemande.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.LignesBordereau.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.LignesDocument.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.Reduction.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.Reduction.class.getName() + ".tarifs");
+            createCache(cm, com.mycompany.myapp.domain.ClientBordereau.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

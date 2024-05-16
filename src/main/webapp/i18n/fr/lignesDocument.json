@@ -1,0 +1,27 @@
+{
+  "faeApp": {
+    "lignesDocument": {
+      "home": {
+        "title": "LignesDocuments",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Lignes Document",
+        "createOrEditLabel": "Créer ou éditer un Lignes Document",
+        "notFound": "Aucun Lignes Document trouvé"
+      },
+      "created": "Un nouveau Lignes Document a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Lignes Document avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Lignes Document avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Lignes Document {{ id }} ?"
+      },
+      "detail": {
+        "title": "Lignes Document"
+      },
+      "id": "ID",
+      "dateDebut": "Date Debut",
+      "dateFin": "Date Fin",
+      "bordereaus": "Bordereaus",
+      "documents": "Documents"
+    }
+  }
+}

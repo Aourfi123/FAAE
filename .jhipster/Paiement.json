@@ -1,0 +1,36 @@
+{
+  "applications": "*",
+  "changelogDate": "20240516144551",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "paiement",
+  "fields": [
+    {
+      "fieldName": "reference",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "typePaiement",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Paiement",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "facture",
+      "otherEntityRelationshipName": "paiement",
+      "ownerSide": true,
+      "relationshipName": "facture",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "service": "no"
+}

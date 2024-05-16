@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!--
+        Added the constraints for entity LignesBordereau.
+    -->
+    <changeSet id="20240516144555-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="bordereaus_id"
+                                 baseTableName="lignes_bordereau"
+                                 constraintName="fk_lignes_bordereau__bordereaus_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="bordereau"/>
+
+        <addForeignKeyConstraint baseColumnNames="articles_id"
+                                 baseTableName="lignes_bordereau"
+                                 constraintName="fk_lignes_bordereau__articles_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="article"/>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,27 @@
+{
+  "faeApp": {
+    "tarif": {
+      "home": {
+        "title": "Tarifs",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Tarif",
+        "createOrEditLabel": "Créer ou éditer un Tarif",
+        "notFound": "Aucun Tarif trouvé"
+      },
+      "created": "Un nouveau Tarif a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Tarif avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Tarif avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Tarif {{ id }} ?"
+      },
+      "detail": {
+        "title": "Tarif"
+      },
+      "id": "ID",
+      "dateDebut": "Date Debut",
+      "dateFin": "Date Fin",
+      "reductions": "Reductions",
+      "articles": "Articles"
+    }
+  }
+}

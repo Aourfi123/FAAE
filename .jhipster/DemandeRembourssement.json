@@ -1,0 +1,44 @@
+{
+  "applications": "*",
+  "changelogDate": "20240516144553",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "demande_rembourssement",
+  "fields": [
+    {
+      "fieldName": "raison",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pieceJointe",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "etat",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dateCreation",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "dateModification",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "DemandeRembourssement",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "detailsDemande",
+      "otherEntityRelationshipName": "demandeRemboursements",
+      "relationshipName": "detailsDemandes",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

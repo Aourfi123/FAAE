@@ -1,0 +1,124 @@
+entity User {
+}
+
+
+entity Article {
+  modele String
+  largeurPneus Float
+  hauteurPneus Float
+  typePneus String
+  diametre Float
+  photo ImageBlob
+  dateCreation LocalDate
+}
+
+entity Tarif {
+  dateDebut LocalDate
+  dateFin LocalDate
+}
+
+entity SocieteCommerciale {
+  codePays String
+  libelle String
+  devise String
+}
+
+entity  Document {
+  code String
+  reference String
+  montantTotal Float
+  dateCreation LocalDate
+  dateModification LocalDate
+}
+
+entity Facture {
+  code String
+  etat String
+}
+
+entity Avoir {
+  code String 
+}
+
+
+entity Client {
+  cin String
+  photo ImageBlob
+  numeroTelephone Double
+  dateNaissance LocalDate
+  nationalite String
+  adresse String
+  genre String
+}
+entity Paiement {
+ reference String
+ date LocalDate
+ typePaiement String
+ 
+}
+entity Bordereau {
+  reference String
+  etat String
+  montantTotal Float
+  dateCreation LocalDate
+  dateModification LocalDate
+}
+entity DemandeRembourssement{
+  raison String
+  pieceJointe ImageBlob
+  etat String
+  dateCreation LocalDate
+  DateModification LocalDate
+}
+entity DetailsDemande { 
+  quantite Integer
+  etat String
+}
+
+entity LignesBordereau {
+ quantite Integer
+ dateDebut LocalDate
+ dateFin LocalDate
+}
+
+entity LignesDocument {
+  dateDebut LocalDate
+  dateFin LocalDate
+}
+
+entity Reduction {
+  description String
+  typeOperation String
+  pourcentage Float
+  dateDebut LocalDate
+  dateFin LocalDate
+}
+entity ClientBordereau {
+ dateDebut LocalDate
+ dateFin LocalDate
+}
+
+relationship OneToOne {
+  Client{user} to User{client}
+  Avoir{document} to Document{avoir}
+  Paiement{facture} to Facture{paiement}
+  Facture{document} to  Document{facture}
+}
+
+relationship ManyToOne {
+  ClientBordereau{bordereaus} to Bordereau{clientBordereaus}
+  ClientBordereau{clients} to Client{clientBordereaus}
+  Tarif{reductions} to Reduction{tarifs}
+  Tarif{articles} to Article{tarifs}
+  LignesBordereau{bordereaus} to Bordereau{lignesBordereaus}
+  LignesBordereau{articles} to Article{LignesBordereau}
+  LignesDocument{bordereaus} to Bordereau{lignesDocuments}
+  LignesDocument{documents} to Document{lignesDocuments}
+  DetailsDemande{articles} to Article{detailsDemandes}
+  DetailsDemande{demandeRemboursements} to DemandeRembourssement{detailsDemandes}
+}
+relationship ManyToOne {
+   Reduction{societeCommercial} to SocieteCommerciale{societeCommerciale} 
+}
+
+paginate all with pagination 

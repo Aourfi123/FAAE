@@ -1,0 +1,27 @@
+{
+  "faeApp": {
+    "clientBordereau": {
+      "home": {
+        "title": "ClientBordereaus",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Client Bordereau",
+        "createOrEditLabel": "Créer ou éditer un Client Bordereau",
+        "notFound": "Aucun Client Bordereau trouvé"
+      },
+      "created": "Un nouveau Client Bordereau a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Client Bordereau avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Client Bordereau avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Client Bordereau {{ id }} ?"
+      },
+      "detail": {
+        "title": "Client Bordereau"
+      },
+      "id": "ID",
+      "dateDebut": "Date Debut",
+      "dateFin": "Date Fin",
+      "bordereaus": "Bordereaus",
+      "clients": "Clients"
+    }
+  }
+}
