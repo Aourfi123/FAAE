@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Table, Badge } from 'reactstrap';
-import { Translate, TextFormat, JhiPagination, JhiItemCount, getSortState } from 'react-jhipster';
+import { openFile,Translate, TextFormat, JhiPagination, JhiItemCount, getSortState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { APP_DATE_FORMAT } from 'app/config/constants';
@@ -9,6 +9,7 @@ import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.cons
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { getUsersAsAdmin, updateUser } from './user-management.reducer';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { getEntities as getClientEntities } from 'app/entities/client/client.reducer';
 
 export const UserManagement = () => {
   const dispatch = useAppDispatch();
@@ -36,6 +37,7 @@ export const UserManagement = () => {
 
   useEffect(() => {
     getUsersFromProps();
+    dispatch(getClientEntities({}));
   }, [pagination.activePage, pagination.order, pagination.sort]);
 
   useEffect(() => {
@@ -83,11 +85,13 @@ export const UserManagement = () => {
   const users = useAppSelector(state => state.userManagement.users);
   const totalItems = useAppSelector(state => state.userManagement.totalItems);
   const loading = useAppSelector(state => state.userManagement.loading);
+  const clientList = useAppSelector(state => state.client.entities);
+
 
   return (
     <div>
       <h2 id="user-management-page-heading" data-cy="userManagementPageHeading">
-        <Translate contentKey="userManagement.home.title">Users</Translate>
+        Liste Clients
         <div className="d-flex justify-content-end">
           <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
@@ -105,8 +109,12 @@ export const UserManagement = () => {
               <Translate contentKey="global.field.id">ID</Translate>
               <FontAwesomeIcon icon="sort" />
             </th>
-            <th className="hand" onClick={sort('login')}>
-              <Translate contentKey="userManagement.login">Login</Translate>
+
+            <th className="hand" onClick={sort('photo')}>
+                  <Translate contentKey="faeApp.client.photo">Photo</Translate> <FontAwesomeIcon icon="sort" />
+                </th>
+                <th className="hand" onClick={sort('login')}>
+             Nom complet
               <FontAwesomeIcon icon="sort" />
             </th>
             <th className="hand" onClick={sort('email')}>
@@ -133,6 +141,8 @@ export const UserManagement = () => {
               <Translate contentKey="userManagement.lastModifiedDate">Last Modified Date</Translate>
               <FontAwesomeIcon icon="sort" />
             </th>
+
+
             <th />
           </tr>
         </thead>
@@ -144,7 +154,27 @@ export const UserManagement = () => {
                   {user.id}
                 </Button>
               </td>
-              <td>{user.login}</td>
+              <td>
+              {clientList
+                ? clientList
+                    .filter(client => client.user.id === user.id)
+                    .map((client, j) => (
+                      <div key={`client-${i}-${j}`}>
+                        {client.photoContentType ? (
+                          <a onClick={openFile(client.photoContentType, client.photo)}>
+                            <img
+                              src={`data:${client.photoContentType};base64,${client.photo}`}
+                              style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover' }} // Augmenter la taille de l'image et ajouter le style pour un cercle
+                            />
+                            &nbsp;
+                          </a>
+                        ) : null}
+                      </div>
+                    ))
+                : null}
+            </td>
+            <td>{user.firstName} {user.lastName}</td> {/* Ajouter un espace entre user.firstName et user.lastName */}
+
               <td>{user.email}</td>
               <td>
                 {user.activated ? (
@@ -198,6 +228,7 @@ export const UserManagement = () => {
                   </Button>
                 </div>
               </td>
+
             </tr>
           ))}
         </tbody>

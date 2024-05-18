@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -26,6 +26,8 @@ export const ReductionUpdate = () => {
   const loading = useAppSelector(state => state.reduction.loading);
   const updating = useAppSelector(state => state.reduction.updating);
   const updateSuccess = useAppSelector(state => state.reduction.updateSuccess);
+  const location = useLocation();
+  const type = new URLSearchParams(location.search).get('type') || 'remise'; // Default to 'remise' if not specified
 
   const handleClose = () => {
     navigate('/reduction' + location.search);
@@ -34,6 +36,7 @@ export const ReductionUpdate = () => {
   useEffect(() => {
     if (isNew) {
       dispatch(reset());
+      console.log(type)
     } else {
       dispatch(getEntity(id));
     }
@@ -70,100 +73,182 @@ export const ReductionUpdate = () => {
         };
 
   return (
+
     <div>
-      <Row className="justify-content-center">
-        <Col md="8">
-          <h2 id="faeApp.reduction.home.createOrEditLabel" data-cy="ReductionCreateUpdateHeading">
-            <Translate contentKey="faeApp.reduction.home.createOrEditLabel">Create or edit a Reduction</Translate>
-          </h2>
-        </Col>
-      </Row>
-      <Row className="justify-content-center">
-        <Col md="8">
-          {loading ? (
-            <p>Loading...</p>
-          ) : (
-            <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
-              {!isNew ? (
-                <ValidatedField
-                  name="id"
-                  required
-                  readOnly
-                  id="reduction-id"
-                  label={translate('global.field.id')}
-                  validate={{ required: true }}
-                />
-              ) : null}
-              <ValidatedField
-                label={translate('faeApp.reduction.description')}
-                id="reduction-description"
-                name="description"
-                data-cy="description"
-                type="text"
-              />
-              <ValidatedField
-                label={translate('faeApp.reduction.typeOperation')}
-                id="reduction-typeOperation"
-                name="typeOperation"
-                data-cy="typeOperation"
-                type="text"
-              />
-              <ValidatedField
-                label={translate('faeApp.reduction.pourcentage')}
-                id="reduction-pourcentage"
-                name="pourcentage"
-                data-cy="pourcentage"
-                type="text"
-              />
-              <ValidatedField
-                label={translate('faeApp.reduction.dateDebut')}
-                id="reduction-dateDebut"
-                name="dateDebut"
-                data-cy="dateDebut"
-                type="date"
-              />
-              <ValidatedField
-                label={translate('faeApp.reduction.dateFin')}
-                id="reduction-dateFin"
-                name="dateFin"
-                data-cy="dateFin"
-                type="date"
-              />
-              <ValidatedField
-                id="reduction-societeCommercial"
-                name="societeCommercial"
-                data-cy="societeCommercial"
-                label={translate('faeApp.reduction.societeCommercial')}
-                type="select"
-              >
-                <option value="" key="0" />
-                {societeCommerciales
-                  ? societeCommerciales.map(otherEntity => (
-                      <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
-                      </option>
-                    ))
-                  : null}
-              </ValidatedField>
-              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/reduction" replace color="info">
-                <FontAwesomeIcon icon="arrow-left" />
-                &nbsp;
-                <span className="d-none d-md-inline">
-                  <Translate contentKey="entity.action.back">Back</Translate>
-                </span>
-              </Button>
-              &nbsp;
-              <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
-                <FontAwesomeIcon icon="save" />
-                &nbsp;
-                <Translate contentKey="entity.action.save">Save</Translate>
-              </Button>
-            </ValidatedForm>
-          )}
-        </Col>
-      </Row>
+    {type === "remise" ? (
+      <><Row className="justify-content-center">
+          <Col md="8">
+            <h2 id="faeApp.reduction.home.createOrEditLabel" data-cy="ReductionCreateUpdateHeading">
+              Create or edit a Remise
+            </h2>
+          </Col>
+        </Row><Row className="justify-content-center">
+            <Col md="8">
+              {loading ? (
+                <p>Loading...</p>
+              ) : (
+                <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
+                  {!isNew ? (
+                    <ValidatedField
+                      name="id"
+                      required
+                      readOnly
+                      id="reduction-id"
+                      label={translate('global.field.id')}
+                      validate={{ required: true }} />
+                  ) : null}
+                  <ValidatedField
+                    label={translate('faeApp.reduction.description')}
+                    id="reduction-description"
+                    name="description"
+                    data-cy="description"
+                    type="text" />
+                  <ValidatedField
+                    label={translate('faeApp.reduction.typeOperation')}
+                    id="reduction-typeOperation"
+                    name="typeOperation"
+                    data-cy="typeOperation"
+                    type="text" />
+                  <ValidatedField
+                    label={translate('faeApp.reduction.pourcentage')}
+                    id="reduction-pourcentage"
+                    name="pourcentage"
+                    data-cy="pourcentage"
+                    type="text" />
+                  <ValidatedField
+                    label={translate('faeApp.reduction.dateDebut')}
+                    id="reduction-dateDebut"
+                    name="dateDebut"
+                    data-cy="dateDebut"
+                    type="date" />
+                  <ValidatedField
+                    label={translate('faeApp.reduction.dateFin')}
+                    id="reduction-dateFin"
+                    name="dateFin"
+                    data-cy="dateFin"
+                    type="date" />
+                  <ValidatedField
+                    id="reduction-societeCommercial"
+                    name="societeCommercial"
+                    data-cy="societeCommercial"
+                    label={translate('faeApp.reduction.societeCommercial')}
+                    type="select"
+                  >
+                    <option value="" key="0" />
+                    {societeCommerciales
+                      ? societeCommerciales.map(otherEntity => (
+                        <option value={otherEntity.id} key={otherEntity.id}>
+                          {otherEntity.id}
+                        </option>
+                      ))
+                      : null}
+                  </ValidatedField>
+                  <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/reduction" replace color="info">
+                    <FontAwesomeIcon icon="arrow-left" />
+                    &nbsp;
+                    <span className="d-none d-md-inline">
+                      <Translate contentKey="entity.action.back">Back</Translate>
+                    </span>
+                  </Button>
+                  &nbsp;
+                  <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
+                    <FontAwesomeIcon icon="save" />
+                    &nbsp;
+                    <Translate contentKey="entity.action.save">Save</Translate>
+                  </Button>
+                </ValidatedForm>
+              )}
+            </Col>
+          </Row></>
+      ):(
+        <><Row className="justify-content-center">
+          <Col md="8">
+            <h2 id="faeApp.reduction.home.createOrEditLabel" data-cy="ReductionCreateUpdateHeading">
+
+Create or edit a Taxe            </h2>
+          </Col>
+        </Row><Row className="justify-content-center">
+            <Col md="8">
+              {loading ? (
+                <p>Loading...</p>
+              ) : (
+                <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
+                  {!isNew ? (
+                    <ValidatedField
+                      name="id"
+                      required
+                      readOnly
+                      id="reduction-id"
+                      label={translate('global.field.id')}
+                      validate={{ required: true }} />
+                  ) : null}
+                  <ValidatedField
+                    label={translate('faeApp.reduction.description')}
+                    id="reduction-description"
+                    name="description"
+                    data-cy="description"
+                    type="text" />
+                  <ValidatedField
+                    label={translate('faeApp.reduction.typeOperation')}
+                    id="reduction-typeOperation"
+                    name="typeOperation"
+                    data-cy="typeOperation"
+                    type="text" />
+                  <ValidatedField
+                    label={translate('faeApp.reduction.pourcentage')}
+                    id="reduction-pourcentage"
+                    name="pourcentage"
+                    data-cy="pourcentage"
+                    type="text" />
+                  <ValidatedField
+                    label={translate('faeApp.reduction.dateDebut')}
+                    id="reduction-dateDebut"
+                    name="dateDebut"
+                    data-cy="dateDebut"
+                    type="date" />
+                  <ValidatedField
+                    label={translate('faeApp.reduction.dateFin')}
+                    id="reduction-dateFin"
+                    name="dateFin"
+                    data-cy="dateFin"
+                    type="date" />
+                  <ValidatedField
+                    id="reduction-societeCommercial"
+                    name="societeCommercial"
+                    data-cy="societeCommercial"
+                    label={translate('faeApp.reduction.societeCommercial')}
+                    type="select"
+                  >
+                    <option value="" key="0" />
+                    {societeCommerciales
+                      ? societeCommerciales.map(otherEntity => (
+                        <option value={otherEntity.id} key={otherEntity.id}>
+                          {otherEntity.id}
+                        </option>
+                      ))
+                      : null}
+                  </ValidatedField>
+                  <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/reduction" replace color="info">
+                    <FontAwesomeIcon icon="arrow-left" />
+                    &nbsp;
+                    <span className="d-none d-md-inline">
+                      <Translate contentKey="entity.action.back">Back</Translate>
+                    </span>
+                  </Button>
+                  &nbsp;
+                  <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
+                    <FontAwesomeIcon icon="save" />
+                    &nbsp;
+                    <Translate contentKey="entity.action.save">Save</Translate>
+                  </Button>
+                </ValidatedForm>
+              )}
+            </Col>
+          </Row></>
+      )
+    };
     </div>
-  );
+    );
 };
 
 export default ReductionUpdate;

@@ -90,10 +90,15 @@ export const Reduction = () => {
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
             <Translate contentKey="faeApp.reduction.home.refreshListLabel">Refresh List</Translate>
           </Button>
-          <Link to="/reduction/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
+          <Link to="/reduction/new?type=remise" className="btn btn-primary jh-create-entity me-2" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
             &nbsp;
-            <Translate contentKey="faeApp.reduction.home.createLabel">Create new Reduction</Translate>
+            Create new Remise
+          </Link>
+          <Link to="/reduction/new?type=taxe" className="btn btn-primary jh-create-entity me-2" id="jh-create-entity" data-cy="entityCreateButton">
+            <FontAwesomeIcon icon="plus" />
+            &nbsp;
+            Create new Taxes
           </Link>
         </div>
       </h2>
