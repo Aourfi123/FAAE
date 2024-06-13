@@ -4,8 +4,8 @@ import { IClient } from 'app/shared/model/client.model';
 
 export interface IClientBordereau {
   id?: number;
-  dateDebut?: string | null;
-  dateFin?: string | null;
+  dateDebut?: Date | null;
+  dateFin?: Date | null;
   bordereaus?: IBordereau | null;
   clients?: IClient | null;
 }

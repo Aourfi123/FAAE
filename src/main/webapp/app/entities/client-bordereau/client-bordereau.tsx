@@ -100,7 +100,7 @@ export const ClientBordereau = () => {
       <div className="table-responsive">
         {clientBordereauList && clientBordereauList.length > 0 ? (
           <Table responsive>
-            <thead>
+          <thead>
               <tr>
                 <th className="hand" onClick={sort('id')}>
                   <Translate contentKey="faeApp.clientBordereau.id">ID</Translate> <FontAwesomeIcon icon="sort" />

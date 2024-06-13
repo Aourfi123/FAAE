@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Button, Table } from 'reactstrap';
+import { Button, Table, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input } from 'reactstrap';
 import { openFile, byteSize, Translate, TextFormat, getSortState, JhiPagination, JhiItemCount } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-
-import { IDemandeRembourssement } from 'app/shared/model/demande-rembourssement.model';
-import { getEntities } from './demande-rembourssement.reducer';
-
+import { getEntities as getligneDocument , updateEntity as updateLigneDocument, createEntity as createLigneDocument } from 'app/entities/lignes-document/lignes-document.reducer';
+import { getEntities as getDemandesRembourssement, updateEntity as updateDemandeRembourssement } from './demande-rembourssement.reducer';
+import { getEntities as getArticles } from 'app/entities/article/article.reducer';
+import { getEntities as getDetailsDemande, updateEntity as updateDetailsDemande } from 'app/entities/details-demande/details-demande.reducer';
+import { getEntities as getClientBordereau } from 'app/entities/client-bordereau/client-bordereau.reducer';
+import { getEntities as getLignesBordereaus } from 'app/entities/lignes-bordereau/lignes-bordereau.reducer';
+import { getEntities as getClients } from 'app/entities/client/client.reducer';
+import { createEntity as createAvoir} from 'app/entities/avoir/avoir.reducer';
+import { getEntities as getarticles } from 'app/entities/article/article.reducer';
 export const DemandeRembourssement = () => {
   const dispatch = useAppDispatch();
 
@@ -22,18 +26,28 @@ export const DemandeRembourssement = () => {
     overridePaginationStateWithQueryParams(getSortState(location, ITEMS_PER_PAGE, 'id'), location.search)
   );
 
+  const [modal, setModal] = useState(false);
+  const [selectedDemande, setSelectedDemande] = useState(null);
+  const [newEtat, setNewEtat] = useState('');
+  const lignesDocumentList = useAppSelector(state => state.lignesDocument.entities);
   const demandeRembourssementList = useAppSelector(state => state.demandeRembourssement.entities);
   const loading = useAppSelector(state => state.demandeRembourssement.loading);
   const totalItems = useAppSelector(state => state.demandeRembourssement.totalItems);
+  const user = useAppSelector(state => state.authentication.account);
+  const detailsDemandeList = useAppSelector(state => state.detailsDemande.entities);
+  const clientBordereauList = useAppSelector(state => state.clientBordereau.entities);
+  const lignesBordereauList = useAppSelector(state => state.lignesBordereau.entities);
+  const clientList = useAppSelector(state => state.client.entities);
+  const articleList = useAppSelector(state => state.article.entities);
 
   const getAllEntities = () => {
-    dispatch(
-      getEntities({
-        page: paginationState.activePage - 1,
-        size: paginationState.itemsPerPage,
-        sort: `${paginationState.sort},${paginationState.order}`,
-      })
-    );
+    dispatch(getDemandesRembourssement({}));
+    dispatch(getDetailsDemande({}));
+    dispatch(getClientBordereau({}));
+    dispatch(getLignesBordereaus({}));
+    dispatch(getligneDocument({}))
+    dispatch(getClients({}));
+    dispatch(getarticles({}))
   };
 
   const sortEntities = () => {
@@ -81,6 +95,72 @@ export const DemandeRembourssement = () => {
     sortEntities();
   };
 
+  const updateDetailsDemandeState = (detailsDemande, newState) => {
+    const updatedDetailsDemande = {
+      ...detailsDemande,
+      etat: newState,
+    };
+    const articlesSelectionnees = articleList.filter(article =>  detailsDemandeList.some(detailsd =>
+     detailsd.demandeRemboursements &&
+     detailsDemande.articles &&
+     detailsd.demandeRemboursements.id == selectedDemande.id &&
+     article.id == detailsDemande.articles.id
+    ) );
+    const bordereauSelectionnees = lignesBordereauList.filter(lignebordereau =>  articlesSelectionnees.some(article =>
+      lignebordereau.articles &&
+      article.id == lignebordereau.articles.id
+     ) );
+     const documentSelecionner = lignesDocumentList.find(lignedocument =>  bordereauSelectionnees.some(bordereau =>
+      lignedocument.bordereaus && bordereau.bordereaus &&
+      bordereau.bordereaus.id == lignedocument.bordereaus.id
+     ) )?.documents
+    const EntityAvoir = {
+      code: documentSelecionner.code,
+      document: documentSelecionner,
+    };
+    dispatch(createAvoir(EntityAvoir))
+    dispatch(updateDetailsDemande(updatedDetailsDemande));
+  };
+
+  const updateDemandeRembourssementState = (demandeRembourssement, newState) => {
+    const updatedDemandeRembourssement = {
+      ...demandeRembourssement,
+      etat: newState,
+    };
+    dispatch(updateDemandeRembourssement(updatedDemandeRembourssement));
+  };
+
+  const openModal = demandeRembourssement => {
+    setSelectedDemande(demandeRembourssement);
+    setNewEtat(demandeRembourssement.etat);
+    setModal(true);
+  };
+
+  const handleSave = () => {
+    if (selectedDemande) {
+      const detailsDemande = detailsDemandeList.find(detail => detail.demandeRemboursements.id === selectedDemande.id);
+      updateDetailsDemandeState(detailsDemande, newEtat);
+      updateDemandeRembourssementState(selectedDemande, newEtat);
+    }
+    setModal(false);
+  };
+
+  const filteredDemandesRembourssement = user.authorities.includes('ROLE_ADMIN')
+    ? demandeRembourssementList
+    : demandeRembourssementList.filter(demande => {
+        const detailsDemandeForDemande = detailsDemandeList.filter(detail => detail.demandeRemboursements && detail.demandeRemboursements.id === demande.id);
+        const articlesIds = detailsDemandeForDemande.map(detail => detail.articles?.id);
+
+        const bordereauIds = lignesBordereauList
+          .filter(ligne => articlesIds.includes(ligne.articles?.id))
+          .map(ligne => ligne.bordereaus?.id);
+        const clientBordereauForUser = clientBordereauList.find(
+          cb => bordereauIds.includes(cb.bordereaus?.id) && clientList.find(client => client.id == cb.clients?.id && client.user?.id == user.id)
+        );
+
+        return !!clientBordereauForUser;
+      });
+
   return (
     <div>
       <h2 id="demande-rembourssement-heading" data-cy="DemandeRembourssementHeading">
@@ -103,7 +183,7 @@ export const DemandeRembourssement = () => {
         </div>
       </h2>
       <div className="table-responsive">
-        {demandeRembourssementList && demandeRembourssementList.length > 0 ? (
+        {filteredDemandesRembourssement && filteredDemandesRembourssement.length > 0 ? (
           <Table responsive>
             <thead>
               <tr>
@@ -120,18 +200,13 @@ export const DemandeRembourssement = () => {
                   <Translate contentKey="faeApp.demandeRembourssement.etat">Etat</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th className="hand" onClick={sort('dateCreation')}>
-                  <Translate contentKey="faeApp.demandeRembourssement.dateCreation">Date Creation</Translate>{' '}
-                  <FontAwesomeIcon icon="sort" />
-                </th>
-                <th className="hand" onClick={sort('dateModification')}>
-                  <Translate contentKey="faeApp.demandeRembourssement.dateModification">Date Modification</Translate>{' '}
-                  <FontAwesomeIcon icon="sort" />
+                  <Translate contentKey="faeApp.demandeRembourssement.dateCreation">Date Creation</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
               </tr>
             </thead>
             <tbody>
-              {demandeRembourssementList.map((demandeRembourssement, i) => (
+              {filteredDemandesRembourssement.map((demandeRembourssement, i) => (
                 <tr key={`entity-${i}`} data-cy="entityTable">
                   <td>
                     <Button tag={Link} to={`/demande-rembourssement/${demandeRembourssement.id}`} color="link" size="sm">
@@ -161,11 +236,6 @@ export const DemandeRembourssement = () => {
                   <td>
                     {demandeRembourssement.dateCreation ? (
                       <TextFormat type="date" value={demandeRembourssement.dateCreation} format={APP_LOCAL_DATE_FORMAT} />
-                    ) : null}
-                  </td>
-                  <td>
-                    {demandeRembourssement.dateModification ? (
-                      <TextFormat type="date" value={demandeRembourssement.dateModification} format={APP_LOCAL_DATE_FORMAT} />
                     ) : null}
                   </td>
                   <td className="text-end">
@@ -206,6 +276,14 @@ export const DemandeRembourssement = () => {
                           <Translate contentKey="entity.action.delete">Delete</Translate>
                         </span>
                       </Button>
+                      {user.authorities.includes('ROLE_ADMIN') && (
+                        <Button color="warning" size="sm" onClick={() => openModal(demandeRembourssement)}>
+                          <FontAwesomeIcon icon="edit" />{' '}
+                          <span className="d-none d-md-inline">
+                        Edit State
+                          </span>
+                        </Button>
+                      )}
                     </div>
                   </td>
                 </tr>
@@ -221,7 +299,7 @@ export const DemandeRembourssement = () => {
         )}
       </div>
       {totalItems ? (
-        <div className={demandeRembourssementList && demandeRembourssementList.length > 0 ? '' : 'd-none'}>
+        <div className={filteredDemandesRembourssement && filteredDemandesRembourssement.length > 0 ? '' : 'd-none'}>
           <div className="justify-content-center d-flex">
             <JhiItemCount page={paginationState.activePage} total={totalItems} itemsPerPage={paginationState.itemsPerPage} i18nEnabled />
           </div>
@@ -238,6 +316,31 @@ export const DemandeRembourssement = () => {
       ) : (
         ''
       )}
+      <Modal isOpen={modal} toggle={() => setModal(!modal)}>
+        <ModalHeader toggle={() => setModal(!modal)}>
+          <Translate contentKey="entity.action.editState">Edit State</Translate>
+        </ModalHeader>
+        <ModalBody>
+          <FormGroup>
+            <Label for="etat-select">
+              <Translate contentKey="faeApp.demandeRembourssement.etat">Etat</Translate>
+            </Label>
+            <Input type="select" id="etat-select" value={newEtat} onChange={e => setNewEtat(e.target.value)}>
+              <option value="En attente">En Attente</option>
+              <option value="Accepté">Accepté</option>
+              <option value="Decliné">Decliné</option>
+            </Input>
+          </FormGroup>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="secondary" onClick={() => setModal(false)}>
+            <Translate contentKey="entity.action.cancel">Cancel</Translate>
+          </Button>
+          <Button color="primary" onClick={handleSave}>
+            <Translate contentKey="entity.action.save">Save</Translate>
+          </Button>
+        </ModalFooter>
+      </Modal>
     </div>
   );
 };

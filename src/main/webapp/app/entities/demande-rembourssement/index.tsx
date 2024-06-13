@@ -11,10 +11,10 @@ import DemandeRembourssementDeleteDialog from './demande-rembourssement-delete-d
 const DemandeRembourssementRoutes = () => (
   <ErrorBoundaryRoutes>
     <Route index element={<DemandeRembourssement />} />
-    <Route path="new" element={<DemandeRembourssementUpdate />} />
+    <Route path="new" element={<DemandeRembourssementUpdate documentId={''} />} />
     <Route path=":id">
       <Route index element={<DemandeRembourssementDetail />} />
-      <Route path="edit" element={<DemandeRembourssementUpdate />} />
+      <Route path="edit" element={<DemandeRembourssementUpdate documentId={''} />} />
       <Route path="delete" element={<DemandeRembourssementDeleteDialog />} />
     </Route>
   </ErrorBoundaryRoutes>

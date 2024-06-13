@@ -18,14 +18,20 @@ import LignesBordereau from './lignes-bordereau';
 import LignesDocument from './lignes-document';
 import Reduction from './reduction';
 import ClientBordereau from './client-bordereau';
+import Dashboard from './document/dashboard';
 /* jhipster-needle-add-route-import - JHipster will add routes here */
-
+import PrivateRoute from 'app/shared/auth/private-route';
+import {AUTHORITIES} from "app/config/constants";
 export default () => {
   return (
     <div>
       <ErrorBoundaryRoutes>
         {/* prettier-ignore */}
-        <Route path="article/*" element={<Article />} />
+        <Route path="article/*"   element={
+            <PrivateRoute  hasAnyAuthorities={[AUTHORITIES.ADMIN]}>
+              <Article />
+            </PrivateRoute>
+          }/>
         <Route path="tarif/*" element={<Tarif />} />
         <Route path="societe-commerciale/*" element={<SocieteCommerciale />} />
         <Route path="document/*" element={<Document />} />
@@ -40,6 +46,7 @@ export default () => {
         <Route path="lignes-document/*" element={<LignesDocument />} />
         <Route path="reduction/*" element={<Reduction />} />
         <Route path="client-bordereau/*" element={<ClientBordereau />} />
+        <Route path="dashboard/*" element={<Dashboard />} />
         {/* jhipster-needle-add-route-path - JHipster will add routes here */}
       </ErrorBoundaryRoutes>
     </div>

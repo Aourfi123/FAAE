@@ -8,8 +8,8 @@ export interface IDocument {
   code?: string | null;
   reference?: string | null;
   montantTotal?: number | null;
-  dateCreation?: string | null;
-  dateModification?: string | null;
+  dateCreation?: Date | null;
+  dateModification?: Date | null;
   avoir?: IAvoir | null;
   facture?: IFacture | null;
   lignesDocuments?: ILignesDocument[] | null;

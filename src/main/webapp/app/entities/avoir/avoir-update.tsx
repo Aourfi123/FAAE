@@ -56,6 +56,7 @@ export const AvoirUpdate = () => {
 
     if (isNew) {
       dispatch(createEntity(entity));
+
     } else {
       dispatch(updateEntity(entity));
     }

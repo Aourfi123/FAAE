@@ -4,8 +4,8 @@ import { IDocument } from 'app/shared/model/document.model';
 
 export interface ILignesDocument {
   id?: number;
-  dateDebut?: string | null;
-  dateFin?: string | null;
+  dateDebut?: Date | null;
+  dateFin?: Date | null;
   bordereaus?: IBordereau | null;
   documents?: IDocument | null;
 }

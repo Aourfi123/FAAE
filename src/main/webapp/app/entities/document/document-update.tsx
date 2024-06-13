@@ -14,6 +14,9 @@ import { IFacture } from 'app/shared/model/facture.model';
 import { getEntities as getFactures } from 'app/entities/facture/facture.reducer';
 import { IDocument } from 'app/shared/model/document.model';
 import { getEntity, updateEntity, createEntity, reset } from './document.reducer';
+import { getEntities as getBordereaus } from 'app/entities/bordereau/bordereau.reducer';
+import {updateEntity as updateLigneDocument, createEntity as createLigneDocument } from 'app/entities/lignes-document/lignes-document.reducer';
+import { IBordereau } from 'app/shared/model/bordereau.model';
 
 export const DocumentUpdate = () => {
   const dispatch = useAppDispatch();
@@ -23,12 +26,15 @@ export const DocumentUpdate = () => {
   const { id } = useParams<'id'>();
   const isNew = id === undefined;
 
+  const bordereaus = useAppSelector(state => state.bordereau.entities);
+
   const avoirs = useAppSelector(state => state.avoir.entities);
   const factures = useAppSelector(state => state.facture.entities);
   const documentEntity = useAppSelector(state => state.document.entity);
   const loading = useAppSelector(state => state.document.loading);
   const updating = useAppSelector(state => state.document.updating);
   const updateSuccess = useAppSelector(state => state.document.updateSuccess);
+  const [bordereausSelected, setBordereausSelected] = useState<IBordereau[]>([]);
 
   const handleClose = () => {
     navigate('/document' + location.search);
@@ -37,6 +43,7 @@ export const DocumentUpdate = () => {
   useEffect(() => {
     if (isNew) {
       dispatch(reset());
+      dispatch(getBordereaus({}))
     } else {
       dispatch(getEntity(id));
     }
@@ -51,15 +58,32 @@ export const DocumentUpdate = () => {
     }
   }, [updateSuccess]);
 
-  const saveEntity = values => {
+  const handleBordereauChange = e => {
+    const selectedId = e.target.value;
+    const selectedEntity = bordereaus.find(entity => entity.id.toString() === selectedId);
+    if (selectedEntity) {
+      setBordereausSelected([...bordereausSelected, selectedEntity]);
+    }
+  };
+  const saveEntity = async values => {
     const entity = {
       ...documentEntity,
       ...values,
     };
 
     if (isNew) {
-      dispatch(createEntity(entity));
-    } else {
+      const result = await dispatch(createEntity(entity));
+      const newBordereauId = result.payload["data"];
+      for (const bord of bordereausSelected) {
+        const borderauxs = {
+          documents: newBordereauId,
+          bordereaus: bord,
+          dateDebut: new Date(),
+        };
+       dispatch(createLigneDocument(borderauxs));
+      }
+    }
+     else {
       dispatch(updateEntity(entity));
     }
   };
@@ -117,14 +141,37 @@ export const DocumentUpdate = () => {
                 name="dateCreation"
                 data-cy="dateCreation"
                 type="date"
+                value={new Date().toISOString().split('T')[0]}  // Valeur par défaut
+                disabled  // Désactiver le champ
               />
+
               <ValidatedField
-                label={translate('faeApp.document.dateModification')}
-                id="document-dateModification"
-                name="dateModification"
-                data-cy="dateModification"
+                label={translate('faeApp.lignesDocument.dateDebut')}
+                id="lignes-document-dateDebut"
+                name="dateDebut"
+                data-cy="dateDebut"
                 type="date"
               />
+
+              <ValidatedField
+                id="lignes-document-bordereaus"
+                name="bordereaus"
+                data-cy="bordereaus"
+                label={translate('faeApp.lignesDocument.bordereaus')}
+                type="select"
+                onChange={handleBordereauChange}
+                multiple
+              >
+                <option value="" key="0" />
+                {bordereaus
+                  ? bordereaus.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.reference}
+                      </option>
+                    ))
+                  : null}
+              </ValidatedField>
+
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/document" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;

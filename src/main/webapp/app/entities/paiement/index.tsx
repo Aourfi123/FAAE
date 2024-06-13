@@ -11,10 +11,10 @@ import PaiementDeleteDialog from './paiement-delete-dialog';
 const PaiementRoutes = () => (
   <ErrorBoundaryRoutes>
     <Route index element={<Paiement />} />
-    <Route path="new" element={<PaiementUpdate />} />
+    <Route path="new" element={<PaiementUpdate factureId={null} documentId={null} />} />
     <Route path=":id">
       <Route index element={<PaiementDetail />} />
-      <Route path="edit" element={<PaiementUpdate />} />
+      <Route path="edit" element={<PaiementUpdate factureId={null} documentId={null} />} />
       <Route path="delete" element={<PaiementDeleteDialog />} />
     </Route>
   </ErrorBoundaryRoutes>

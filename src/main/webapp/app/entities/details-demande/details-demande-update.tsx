@@ -58,7 +58,7 @@ export const DetailsDemandeUpdate = () => {
       articles: articles.find(it => it.id.toString() === values.articles.toString()),
       demandeRemboursements: demandeRembourssements.find(it => it.id.toString() === values.demandeRemboursements.toString()),
     };
-
+    
     if (isNew) {
       dispatch(createEntity(entity));
     } else {

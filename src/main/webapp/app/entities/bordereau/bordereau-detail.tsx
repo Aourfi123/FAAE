@@ -1,24 +1,31 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Button, Row, Col } from 'reactstrap';
+import { Button, Row, Col, Table } from 'reactstrap';
 import { Translate, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+import { APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntity } from './bordereau.reducer';
+import { getEntities as getLignesBordereau } from 'app/entities/lignes-bordereau/lignes-bordereau.reducer';
 
 export const BordereauDetail = () => {
   const dispatch = useAppDispatch();
-
   const { id } = useParams<'id'>();
 
   useEffect(() => {
     dispatch(getEntity(id));
-  }, []);
+    dispatch(getLignesBordereau({}));
+  }, [id]);
 
   const bordereauEntity = useAppSelector(state => state.bordereau.entity);
+  const ligneBordereauList = useAppSelector(state => state.lignesBordereau.entities);
+
+  const filteredLignes = ligneBordereauList.filter(
+    ligne => ligne.bordereaus && ligne.bordereaus.id === bordereauEntity.id
+  );
+
   return (
     <Row>
       <Col md="8">
@@ -71,6 +78,30 @@ export const BordereauDetail = () => {
             ) : null}
           </dd>
         </dl>
+
+        <h3>
+          <Translate contentKey="faeApp.bordereau.detail.title">Articles</Translate>
+        </h3>
+        <Table>
+          <thead>
+            <tr>
+              <th>
+                <Translate contentKey="faeApp.article.modele">Modele</Translate>
+              </th>
+              <th>
+               Quantité    </th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredLignes.map((ligne, index) => (
+              <tr key={index}>
+                <td>{ligne.articles ? ligne.articles.modele : ''}</td>
+                <td>{ligne.quantite}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+
         <Button tag={Link} to="/bordereau" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}
           <span className="d-none d-md-inline">

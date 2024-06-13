@@ -1,0 +1,22 @@
+.carousel-item {
+  position: relative;
+  text-align: center;
+}
+
+.carousel-image {
+  width: 100%;
+  height: auto;
+  max-height: 500px; /* Adjust as needed */
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.carousel-caption {
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}

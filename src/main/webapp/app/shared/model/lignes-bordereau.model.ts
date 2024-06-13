@@ -5,8 +5,8 @@ import { IArticle } from 'app/shared/model/article.model';
 export interface ILignesBordereau {
   id?: number;
   quantite?: number | null;
-  dateDebut?: string | null;
-  dateFin?: string | null;
+  dateDebut?: Date | null;
+  dateFin?: Date | null;
   bordereaus?: IBordereau | null;
   articles?: IArticle | null;
 }

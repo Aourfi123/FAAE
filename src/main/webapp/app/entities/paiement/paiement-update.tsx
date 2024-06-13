@@ -9,17 +9,25 @@ import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { IFacture } from 'app/shared/model/facture.model';
-import { getEntities as getFactures } from 'app/entities/facture/facture.reducer';
+import { getEntities as getFactures , updateEntity as updateFacture} from 'app/entities/facture/facture.reducer';
 import { IPaiement } from 'app/shared/model/paiement.model';
 import { getEntity, updateEntity, createEntity, reset } from './paiement.reducer';
+import { getEntities as getDocuments } from 'app/entities/document/document.reducer';
 
-export const PaiementUpdate = () => {
+interface PaiementUpdateProps {
+  factureId: number;
+  documentId: number;
+}
+
+export const PaiementUpdate: React.FC<PaiementUpdateProps> = ({ factureId ,documentId }) => {
+  // Utilisez factureId ici
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
   const { id } = useParams<'id'>();
   const isNew = id === undefined;
+  const documentList = useAppSelector(state => state.document.entities);
 
   const factures = useAppSelector(state => state.facture.entities);
   const paiementEntity = useAppSelector(state => state.paiement.entity);
@@ -28,7 +36,7 @@ export const PaiementUpdate = () => {
   const updateSuccess = useAppSelector(state => state.paiement.updateSuccess);
 
   const handleClose = () => {
-    navigate('/paiement' + location.search);
+    navigate('/document' + location.search);
   };
 
   useEffect(() => {
@@ -39,6 +47,7 @@ export const PaiementUpdate = () => {
     }
 
     dispatch(getFactures({}));
+    dispatch(getDocuments({}))
   }, []);
 
   useEffect(() => {
@@ -48,17 +57,24 @@ export const PaiementUpdate = () => {
   }, [updateSuccess]);
 
   const saveEntity = values => {
+    console.log(values.facture)
     const entity = {
       ...paiementEntity,
       ...values,
-      facture: factures.find(it => it.id.toString() === values.facture.toString()),
+      facture: factures.find(f => f.code == values.factures)
+    };
+    console.log(documentId +" "+ factureId)
+    const entityFacture = {
+      id: factureId,
+      document:  documentList.find(d => d &&  d.id == documentId),
+      code: documentList.find(d => d &&  d.id == documentId)?.code,
+      etat: 'Payé'
     };
 
-    if (isNew) {
+    dispatch(updateFacture(entityFacture));
+
       dispatch(createEntity(entity));
-    } else {
-      dispatch(updateEntity(entity));
-    }
+    // Ou `dispatch(updateEntity(entity))` si c'est une mise à jour
   };
 
   const defaultValues = () =>
@@ -73,9 +89,7 @@ export const PaiementUpdate = () => {
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="faeApp.paiement.home.createOrEditLabel" data-cy="PaiementCreateUpdateHeading">
-            <Translate contentKey="faeApp.paiement.home.createOrEditLabel">Create or edit a Paiement</Translate>
-          </h2>
+
         </Col>
       </Row>
       <Row className="justify-content-center">
@@ -109,22 +123,16 @@ export const PaiementUpdate = () => {
                 data-cy="typePaiement"
                 type="text"
               />
+
               <ValidatedField
-                id="paiement-facture"
-                name="facture"
-                data-cy="facture"
-                label={translate('faeApp.paiement.facture')}
-                type="select"
-              >
-                <option value="" key="0" />
-                {factures
-                  ? factures.map(otherEntity => (
-                      <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
-                      </option>
-                    ))
-                  : null}
-              </ValidatedField>
+                  id="paiement-facture"
+                  name="facture"
+                  data-cy="facture"
+                  label={translate('faeApp.paiement.facture')}
+                  type="text"
+                  value={factures.find(f => f.id == factureId).code}
+                  disabled
+                />
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/paiement" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;

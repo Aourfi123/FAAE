@@ -13,7 +13,6 @@ import { getEntity, updateEntity, createEntity, reset } from './societe-commerci
 
 export const SocieteCommercialeUpdate = () => {
   const dispatch = useAppDispatch();
-
   const navigate = useNavigate();
 
   const { id } = useParams<'id'>();

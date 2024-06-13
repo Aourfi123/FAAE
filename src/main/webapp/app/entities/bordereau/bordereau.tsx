@@ -118,7 +118,7 @@ export const Bordereau = () => {
                   <Translate contentKey="faeApp.bordereau.dateCreation">Date Creation</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th className="hand" onClick={sort('dateModification')}>
-                  <Translate contentKey="faeApp.bordereau.dateModification">Date Modification</Translate> <FontAwesomeIcon icon="sort" />
+                  Date livraison <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
               </tr>

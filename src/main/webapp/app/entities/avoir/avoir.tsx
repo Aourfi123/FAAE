@@ -11,6 +11,10 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { IAvoir } from 'app/shared/model/avoir.model';
 import { getEntities } from './avoir.reducer';
+import { getEntities as getDocuments } from 'app/entities/document/document.reducer';
+import { getEntities as getLignesDocuments } from 'app/entities/lignes-document/lignes-document.reducer';
+import { getEntities as getClientBordereau } from 'app/entities/client-bordereau/client-bordereau.reducer';
+import { getEntities as getClients } from 'app/entities/client/client.reducer';
 
 export const Avoir = () => {
   const dispatch = useAppDispatch();
@@ -25,15 +29,22 @@ export const Avoir = () => {
   const avoirList = useAppSelector(state => state.avoir.entities);
   const loading = useAppSelector(state => state.avoir.loading);
   const totalItems = useAppSelector(state => state.avoir.totalItems);
+  const user = useAppSelector(state => state.authentication.account);
+  const documentList = useAppSelector(state => state.document.entities);
+  const lignesDocumentList = useAppSelector(state => state.lignesDocument.entities);
+  const clientBordereauList = useAppSelector(state => state.clientBordereau.entities);
+  const clientList = useAppSelector(state => state.client.entities);
 
   const getAllEntities = () => {
-    dispatch(
-      getEntities({
-        page: paginationState.activePage - 1,
-        size: paginationState.itemsPerPage,
-        sort: `${paginationState.sort},${paginationState.order}`,
-      })
-    );
+    dispatch(getEntities({
+      page: paginationState.activePage - 1,
+      size: paginationState.itemsPerPage,
+      sort: `${paginationState.sort},${paginationState.order}`,
+    }));
+    dispatch(getDocuments({}));
+    dispatch(getLignesDocuments({}));
+    dispatch(getClientBordereau({}));
+    dispatch(getClients({}));
   };
 
   const sortEntities = () => {
@@ -81,6 +92,22 @@ export const Avoir = () => {
     sortEntities();
   };
 
+  // Filtrage des avoirs pour les utilisateurs non-admin
+  const filteredAvoirList = user && user.authorities.includes('ROLE_ADMIN') ? avoirList : avoirList.filter(avoir => {
+    const document = documentList.find(doc => doc.id == avoir.document?.id);
+    if (!document) return false;
+    console.log("document"+document )
+    const lignesDocument = lignesDocumentList.filter(ld => ld.documents?.id == document.id);
+    console.log("lignesDocument"+lignesDocument)
+    const bordereauIds = lignesDocument.map(ld => ld.bordereaus?.id);
+    console.log("bordereauIds"+bordereauIds)
+    const clientBordereauForUser = clientBordereauList.find(
+      cb => bordereauIds.includes(cb.bordereaus?.id) && clientList.find(client => client.id == cb.clients?.id && client.user?.id == user.id)
+    );
+    console.log("clientBordereauForUser"+clientBordereauForUser)
+    return !!clientBordereauForUser;
+  });
+
   return (
     <div>
       <h2 id="avoir-heading" data-cy="AvoirHeading">
@@ -98,7 +125,7 @@ export const Avoir = () => {
         </div>
       </h2>
       <div className="table-responsive">
-        {avoirList && avoirList.length > 0 ? (
+        {filteredAvoirList && filteredAvoirList.length > 0 ? (
           <Table responsive>
             <thead>
               <tr>
@@ -115,7 +142,7 @@ export const Avoir = () => {
               </tr>
             </thead>
             <tbody>
-              {avoirList.map((avoir, i) => (
+              {filteredAvoirList.map((avoir, i) => (
                 <tr key={`entity-${i}`} data-cy="entityTable">
                   <td>
                     <Button tag={Link} to={`/avoir/${avoir.id}`} color="link" size="sm">
@@ -135,10 +162,7 @@ export const Avoir = () => {
                       <Button
                         tag={Link}
                         to={`/avoir/${avoir.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
-                        color="primary"
-                        size="sm"
-                        data-cy="entityEditButton"
-                      >
+                        color="primary" size="sm" data-cy="entityEditButton">
                         <FontAwesomeIcon icon="pencil-alt" />{' '}
                         <span className="d-none d-md-inline">
                           <Translate contentKey="entity.action.edit">Edit</Translate>
@@ -147,10 +171,7 @@ export const Avoir = () => {
                       <Button
                         tag={Link}
                         to={`/avoir/${avoir.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
-                        color="danger"
-                        size="sm"
-                        data-cy="entityDeleteButton"
-                      >
+                        color="danger" size="sm" data-cy="entityDeleteButton">
                         <FontAwesomeIcon icon="trash" />{' '}
                         <span className="d-none d-md-inline">
                           <Translate contentKey="entity.action.delete">Delete</Translate>

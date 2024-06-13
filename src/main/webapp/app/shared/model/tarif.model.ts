@@ -4,8 +4,8 @@ import { IArticle } from 'app/shared/model/article.model';
 
 export interface ITarif {
   id?: number;
-  dateDebut?: string | null;
-  dateFin?: string | null;
+  dateDebut?: Date | null;
+  dateFin?: Date | null;
   reductions?: IReduction | null;
   articles?: IArticle | null;
 }
