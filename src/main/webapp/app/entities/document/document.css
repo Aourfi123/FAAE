@@ -18,9 +18,9 @@
   background-color: #ffffff; /* Couleur de fond personnalisée */
   color: #181859; /* Couleur du texte */
   border-radius: 10px; /* Coins arrondis */
-  width: 1000px;
-  margin-left: -120px;
-  height : 1000px;
+  width: 800px;
+  margin-left: -70px;
+  height:1000px;
 }
 
 .custom-modal .modal-header {
@@ -75,6 +75,7 @@
   max-width: 750px;
   margin-right: 500px;
   height : 1200px;
+
 }
 
 .jh-create-invoice {
@@ -93,4 +94,14 @@
   padding: 5px 10px;
   font-size: 12px;
   width: 100px;
+}
+ ajustt{
+   margin-left:-100px;
+ }
+
+.custom-modal-des{
+  height:1000px;
+}
+.design{
+  width: 1000px;
 }

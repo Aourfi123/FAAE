@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
-import { Translate, TextFormat, getSortState, JhiPagination, JhiItemCount } from 'react-jhipster';
+import { Translate, getSortState, JhiPagination, JhiItemCount, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
-import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-
-import { ITarif } from 'app/shared/model/tarif.model';
 import { getEntities } from './tarif.reducer';
+
+import './tarif.css';
+import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
+import { APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+import Sidebar from 'app/shared/layout/sidebar/Sidebar';
 
 export const Tarif = () => {
   const dispatch = useAppDispatch();
-
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -83,24 +82,30 @@ export const Tarif = () => {
 
   return (
     <div>
-      <h2 id="tarif-heading" data-cy="TarifHeading">
-        <Translate contentKey="faeApp.tarif.home.title">Tarifs</Translate>
-        <div className="d-flex justify-content-end">
-          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
-            <FontAwesomeIcon icon="sync" spin={loading} />{' '}
-            <Translate contentKey="faeApp.tarif.home.refreshListLabel">Refresh List</Translate>
-          </Button>
-          <Link to="/tarif/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
-            <FontAwesomeIcon icon="plus" />
-            &nbsp;
-            <Translate contentKey="faeApp.tarif.home.createLabel">Create new Tarif</Translate>
-          </Link>
+      <Sidebar />
+      <div className="table-wrapper">
+        <div className="d-flex justify-content-between align-items-center mb-3 p-3 custom-bg-color text-white rounded">
+          <h2 id="tarif-heading" data-cy="TarifHeading" className="mb-0">
+            <Translate contentKey="faeApp.tarif.home.title">Tarifs</Translate>
+          </h2>
+          <div className="d-flex justify-content-end" style={{ gap: '10px' }}>
+            <Button className="btn btn-info me-2" onClick={handleSyncList} disabled={loading} style={{ width: '220px' }}>
+              <FontAwesomeIcon icon="sync" spin={loading} />{' '}
+              <Translate contentKey="faeApp.article.home.refreshListLabel">Refresh List</Translate>
+            </Button>
+            <Button className="btn btn-success" tag={Link} to="/tarif/new" style={{ width: '220px' }}>
+              <FontAwesomeIcon icon="plus" />
+              &nbsp;
+              <Translate contentKey="faeApp.tarif.home.createLabel">Créer un nouveau Tarif</Translate>
+            </Button>
+          </div>
+
+
         </div>
-      </h2>
-      <div className="table-responsive">
-        {tarifList && tarifList.length > 0 ? (
-          <Table responsive>
-            <thead>
+        <div className="table-responsive">
+          {tarifList && tarifList.length > 0 ? (
+            <Table className="table-striped">
+              <thead className="thead-dark">
               <tr>
                 <th className="hand" onClick={sort('id')}>
                   <Translate contentKey="faeApp.tarif.id">ID</Translate> <FontAwesomeIcon icon="sort" />
@@ -117,10 +122,10 @@ export const Tarif = () => {
                 <th>
                   <Translate contentKey="faeApp.tarif.articles">Articles</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th />
+                <th>Actions</th>
               </tr>
-            </thead>
-            <tbody>
+              </thead>
+              <tbody>
               {tarifList.map((tarif, i) => (
                 <tr key={`entity-${i}`} data-cy="entityTable">
                   <td>
@@ -134,11 +139,14 @@ export const Tarif = () => {
                   <td>{tarif.articles ? <Link to={`/article/${tarif.articles.id}`}>{tarif.articles.id}</Link> : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
-                      <Button tag={Link} to={`/tarif/${tarif.id}`} color="info" size="sm" data-cy="entityDetailsButton">
-                        <FontAwesomeIcon icon="eye" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.view">View</Translate>
-                        </span>
+                      <Button
+                        tag={Link}
+                        to={`/tarif/${tarif.id}`}
+                        color="info"
+                        size="sm"
+                        data-cy="entityDetailsButton"
+                      >
+                        <FontAwesomeIcon icon="eye" />
                       </Button>
                       <Button
                         tag={Link}
@@ -147,10 +155,7 @@ export const Tarif = () => {
                         size="sm"
                         data-cy="entityEditButton"
                       >
-                        <FontAwesomeIcon icon="pencil-alt" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.edit">Edit</Translate>
-                        </span>
+                        <FontAwesomeIcon icon="pencil-alt" />
                       </Button>
                       <Button
                         tag={Link}
@@ -159,43 +164,41 @@ export const Tarif = () => {
                         size="sm"
                         data-cy="entityDeleteButton"
                       >
-                        <FontAwesomeIcon icon="trash" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.delete">Delete</Translate>
-                        </span>
+                        <FontAwesomeIcon icon="trash" />
                       </Button>
                     </div>
                   </td>
                 </tr>
               ))}
-            </tbody>
-          </Table>
-        ) : (
-          !loading && (
-            <div className="alert alert-warning">
-              <Translate contentKey="faeApp.tarif.home.notFound">No Tarifs found</Translate>
+              </tbody>
+            </Table>
+          ) : (
+            !loading && (
+              <div className="alert alert-warning">
+                <Translate contentKey="faeApp.tarif.home.notFound">No Tarifs found</Translate>
+              </div>
+            )
+          )}
+        </div>
+        {totalItems ? (
+          <div className={tarifList && tarifList.length > 0 ? '' : 'd-none'}>
+            <div className="d-flex justify-content-end">
+              <JhiItemCount page={paginationState.activePage} total={totalItems} itemsPerPage={paginationState.itemsPerPage} i18nEnabled />
             </div>
-          )
+            <div className="d-flex justify-content-end">
+              <JhiPagination
+                activePage={paginationState.activePage}
+                onSelect={handlePagination}
+                maxButtons={5}
+                itemsPerPage={paginationState.itemsPerPage}
+                totalItems={totalItems}
+              />
+            </div>
+          </div>
+        ) : (
+          ''
         )}
       </div>
-      {totalItems ? (
-        <div className={tarifList && tarifList.length > 0 ? '' : 'd-none'}>
-          <div className="justify-content-center d-flex">
-            <JhiItemCount page={paginationState.activePage} total={totalItems} itemsPerPage={paginationState.itemsPerPage} i18nEnabled />
-          </div>
-          <div className="justify-content-center d-flex">
-            <JhiPagination
-              activePage={paginationState.activePage}
-              onSelect={handlePagination}
-              maxButtons={5}
-              itemsPerPage={paginationState.itemsPerPage}
-              totalItems={totalItems}
-            />
-          </div>
-        </div>
-      ) : (
-        ''
-      )}
     </div>
   );
 };

@@ -1,6 +1,7 @@
 .invoice-container {
   font-family: Arial, sans-serif;
   margin: 10px;
+
 }
 
 .header {
@@ -43,6 +44,7 @@
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+
 }
 
 .invoice-table th, .invoice-table td {
@@ -70,4 +72,7 @@
 
 .company-info, .contact-info, .bank-details {
   width: 30%;
+}
+.custom-modal-des{
+  height:1000px;
 }

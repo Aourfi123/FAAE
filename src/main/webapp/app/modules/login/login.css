@@ -1,0 +1,80 @@
+/* login.css */
+
+
+.modal-content {
+  background-color: #151531; /* Dark background color */
+  color: #c9d1d9; /* Light text color */
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+
+  height : 630px;
+}
+
+.modal-header {
+  border-bottom: none;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #58a6ff; /* Light blue color */
+}
+
+.form-control {
+  background-color: transparent;
+  color: #c9d1d9;
+  border: none;
+  border-bottom: 1px solid #c9d1d9;
+  border-radius: 0;
+}
+
+.form-control:focus {
+  background-color: transparent;
+  color: #c9d1d9;
+  border-color: #58a6ff;
+  box-shadow: none;
+}
+
+.form-check-input {
+  background-color: #21262d;
+  border-color: #58a6ff;
+}
+
+.form-check-label {
+  color: #c9d1d9;
+}
+
+.btn-submit {
+  background-color: #21262d;
+  border: 1px solid #58a6ff;
+  color: #58a6ff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-submit:hover {
+  background-color: #58a6ff;
+  color: #0d1117;
+}
+
+.btn-close {
+  color: #c9d1d9;
+  opacity: 1;
+}
+
+.additional-links {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.additional-links a {
+  color: #58a6ff;
+  text-decoration: none;
+  margin: 0 5px;
+}
+
+.additional-links a:hover {
+  text-decoration: underline;
+}

@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { IFacture } from 'app/shared/model/facture.model';
 import { getEntities } from './facture.reducer';
 
+
 export const Facture = () => {
   const dispatch = useAppDispatch();
 

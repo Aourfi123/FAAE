@@ -214,7 +214,7 @@ console.log(newDemandeId);
       {selectedBordereaux && (
         <Row>
           <Col md="12">
-            <Table responsive>
+            <Table className="invoice-table" style={{marginLeft:'-50px' ,width:'700px'}}>
             <thead>
                 <tr>
                   <th>Nom de l'Article</th>

@@ -43,3 +43,6 @@ h2 {
 .bouton{
   width: 100px;
 }
+.custom-input-field input{
+  color:black;
+}

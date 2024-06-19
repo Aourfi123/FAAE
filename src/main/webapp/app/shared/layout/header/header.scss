@@ -1,122 +1,59 @@
-$header-color: #fff;
-$header-color-secondary: #bbb;
-$header-color-hover: darken($header-color, 20%);
+// header.scss
 
-/* ==========================================================================
-Developement Ribbon
-========================================================================== */
-.ribbon {
-  background-color: rgba(170, 0, 0, 0.5);
-  left: -3.5em;
-  -moz-transform: rotate(-45deg);
-  -ms-transform: rotate(-45deg);
-  -o-transform: rotate(-45deg);
-  -webkit-transform: rotate(-45deg);
-  transform: rotate(-45deg);
-  overflow: hidden;
-  position: absolute;
-  top: 30px;
-  white-space: nowrap;
-  width: 15em;
-  z-index: 99999;
-  pointer-events: none;
-  opacity: 0.75;
-  a {
-    color: #fff;
-    display: block;
-    font-weight: 400;
-    margin: 1px 0;
-    padding: 10px 50px;
-    text-align: center;
-    text-decoration: none;
-    text-shadow: 0 0 5px #444;
-    pointer-events: none;
-  }
-}
-
-/* ==========================================================================
-Navbar styles
-========================================================================== */
-.jh-navbar {
-  background-color: #353d47;
-  padding: 0.2em 1em;
-  .profile-image {
-    margin: -10px 0px;
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-  }
-  .dropdown-item.active,
-  .dropdown-item.active:focus,
-  .dropdown-item.active:hover {
-    background-color: #353d47;
-  }
-  .dropdown-toggle::after {
-    margin-left: 0.15em;
-  }
-  ul.navbar-nav {
-    padding: 0.5em;
-    .nav-item {
-      margin-left: 1.5rem;
+#app-header {
+  .jh-navbar {
+    background-color: #ffffff; // Match the title bar color
+    width: 100%; // Ensure full width
+    .navbar-logo {
+      height: 40px; // Adjust the height as needed
+      margin-right: 20px; // Adjust the margin as needed
+      margin-top:-50px;
     }
-  }
-  a.nav-link {
-    font-weight: 400;
-    > span {
-      margin-left: 5px;
+    .navbar-nav .nav-link {
+      color: #0c0c3d;
+      &:hover {
+        color: #ddd;
+      }
     }
-  }
-  .jh-navbar-toggler {
-    color: #ccc;
-    font-size: 1.5em;
-    padding: 10px;
-    &:hover {
+    .navbar-toggler {
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    .dropdown-menu {
+      background-color: #343a40;
+      .dropdown-item {
+        color: #fff;
+        &:hover {
+          background-color: #495057;
+          color: #fff;
+        }
+      }
+    }
+    .navbar-button {
+      margin: 0 5px;
       color: #fff;
-    }
-  }
-}
-.navbar-brand {
-  overflow: hidden;
-}
-
-.jh-navbar .navbar-nav .nav-link {
-  padding-right: 0;
-  padding-left: 0;
-}
-
-.navbar-version {
-  font-size: 10px;
-  color: $header-color-secondary;
-  padding: 0 0 0 10px;
-}
-
-.brand-logo {
-  &:hover {
-    text-decoration: none;
-  }
-  .brand-icon {
-    height: 35px;
-    width: auto;
-    display: inline-block;
-    img {
-      height: 45px;
+      background-color: #007bff;
+      border: none;
+      &:hover {
+        background-color: #0056b3;
+      }
     }
   }
 }
 
-.brand-title {
-  font-size: 24px;
-  color: $header-color;
-  &:hover {
-    color: $header-color-hover;
-    text-decoration: none;
-  }
+.app-container {
+  padding-top: 0; // Remove extra padding from the top
 }
 
 .loading-bar {
-  height: 3px;
-  background-color: #009cd8;
-  position: absolute;
-  top: 0px;
+  position: fixed;
+  width: 100%;
   z-index: 1031;
 }
+
+.compte-nav {
+  margin-right: 20px; // Adjust the value to move the "Compte" tab to the left
+  margin-top:-50px;
+}
+
+
+

@@ -8,9 +8,9 @@ import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-
-import { IBordereau } from 'app/shared/model/bordereau.model';
+import Sidebar from 'app/shared/layout/sidebar/Sidebar';
 import { getEntities } from './bordereau.reducer';
+import './bordereau.css';
 
 export const Bordereau = () => {
   const dispatch = useAppDispatch();
@@ -83,24 +83,28 @@ export const Bordereau = () => {
 
   return (
     <div>
-      <h2 id="bordereau-heading" data-cy="BordereauHeading">
-        <Translate contentKey="faeApp.bordereau.home.title">Bordereaus</Translate>
-        <div className="d-flex justify-content-end">
-          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
-            <FontAwesomeIcon icon="sync" spin={loading} />{' '}
-            <Translate contentKey="faeApp.bordereau.home.refreshListLabel">Refresh List</Translate>
-          </Button>
-          <Link to="/bordereau/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
-            <FontAwesomeIcon icon="plus" />
-            &nbsp;
-            <Translate contentKey="faeApp.bordereau.home.createLabel">Create new Bordereau</Translate>
-          </Link>
+      <Sidebar />
+      <div className="table-wrapper">
+        <div className="d-flex justify-content-between align-items-center mb-3 p-3 custom-bg-color text-white rounded">
+          <h2 id="bordereau-heading" data-cy="BordereauHeading" className="mb-0">
+            <Translate contentKey="faeApp.bordereau.home.title">Bordereaux</Translate>
+          </h2>
+          <div className="d-flex justify-content-end ajust2" style={{ gap: '10px' }}>
+            <Button className="bt btn-info me-2" onClick={handleSyncList} disabled={loading} style={{ width: '220px',height:'48px' }}>
+              <FontAwesomeIcon icon="sync" spin={loading} />{' '}
+              <Translate contentKey="faeApp.article.home.refreshListLabel">Refresh List</Translate>
+            </Button>
+            <Button className="btn btn-success" tag={Link} to="/bordereau/new" style={{ width: '220px' ,height:'48px'}}>
+              <FontAwesomeIcon icon="plus" />
+              &nbsp;
+              <Translate contentKey="faeApp.bordereau.home.createLabel">Créer un nouveau Bordereau</Translate>
+            </Button>
+          </div>
         </div>
-      </h2>
-      <div className="table-responsive">
-        {bordereauList && bordereauList.length > 0 ? (
-          <Table responsive>
-            <thead>
+        <div className="table-responsive">
+          {bordereauList && bordereauList.length > 0 ? (
+            <Table className="table-striped">
+              <thead className="thead-dark">
               <tr>
                 <th className="hand" onClick={sort('id')}>
                   <Translate contentKey="faeApp.bordereau.id">ID</Translate> <FontAwesomeIcon icon="sort" />
@@ -118,12 +122,12 @@ export const Bordereau = () => {
                   <Translate contentKey="faeApp.bordereau.dateCreation">Date Creation</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th className="hand" onClick={sort('dateModification')}>
-                  Date livraison <FontAwesomeIcon icon="sort" />
+                  <Translate contentKey="faeApp.bordereau.dateModification">Date Modification</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th />
+                <th>Actions</th>
               </tr>
-            </thead>
-            <tbody>
+              </thead>
+              <tbody>
               {bordereauList.map((bordereau, i) => (
                 <tr key={`entity-${i}`} data-cy="entityTable">
                   <td>
@@ -147,67 +151,59 @@ export const Bordereau = () => {
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`/bordereau/${bordereau.id}`} color="info" size="sm" data-cy="entityDetailsButton">
-                        <FontAwesomeIcon icon="eye" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.view">View</Translate>
-                        </span>
+                        <FontAwesomeIcon icon="eye" />
                       </Button>
                       <Button
                         tag={Link}
-                        to={`/bordereau/${bordereau.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
+                        to={`/bordereau/${bordereau.id}/edit?page={paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
                         color="primary"
                         size="sm"
                         data-cy="entityEditButton"
                       >
-                        <FontAwesomeIcon icon="pencil-alt" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.edit">Edit</Translate>
-                        </span>
+                        <FontAwesomeIcon icon="pencil-alt" />
                       </Button>
                       <Button
                         tag={Link}
-                        to={`/bordereau/${bordereau.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
+                        to={`/bordereau/${bordereau.id}/delete?page={paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
                         color="danger"
                         size="sm"
                         data-cy="entityDeleteButton"
                       >
-                        <FontAwesomeIcon icon="trash" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.delete">Delete</Translate>
-                        </span>
+                        <FontAwesomeIcon icon="trash" />
                       </Button>
                     </div>
                   </td>
                 </tr>
               ))}
-            </tbody>
-          </Table>
-        ) : (
-          !loading && (
-            <div className="alert alert-warning">
-              <Translate contentKey="faeApp.bordereau.home.notFound">No Bordereaus found</Translate>
+              </tbody>
+            </Table>
+          ) : (
+            !loading && (
+              <div className="alert alert-warning">
+                <Translate contentKey="faeApp.bordereau.home.notFound">No Bordereaux found</Translate>
+              </div>
+            )
+          )}
+        </div>
+        {totalItems ? (
+          <div className={bordereauList && bordereauList.length > 0 ? '' : 'd-none'}>
+            <div className="d-flex justify-content-end">
+              <JhiItemCount page={paginationState.activePage} total={totalItems} itemsPerPage={paginationState.itemsPerPage} i18nEnabled />
             </div>
-          )
+            <div className="d-flex justify-content-end">
+              <JhiPagination
+                activePage={paginationState.activePage}
+                onSelect={handlePagination}
+                maxButtons={5}
+                itemsPerPage={paginationState.itemsPerPage}
+                totalItems={totalItems}
+              />
+            </div>
+          </div>
+        ) : (
+          ''
         )}
       </div>
-      {totalItems ? (
-        <div className={bordereauList && bordereauList.length > 0 ? '' : 'd-none'}>
-          <div className="justify-content-center d-flex">
-            <JhiItemCount page={paginationState.activePage} total={totalItems} itemsPerPage={paginationState.itemsPerPage} i18nEnabled />
-          </div>
-          <div className="justify-content-center d-flex">
-            <JhiPagination
-              activePage={paginationState.activePage}
-              onSelect={handlePagination}
-              maxButtons={5}
-              itemsPerPage={paginationState.itemsPerPage}
-              totalItems={totalItems}
-            />
-          </div>
-        </div>
-      ) : (
-        ''
-      )}
     </div>
   );
 };

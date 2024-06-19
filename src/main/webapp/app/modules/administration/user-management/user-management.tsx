@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Table, Badge } from 'reactstrap';
-import { openFile,Translate, TextFormat, JhiPagination, JhiItemCount, getSortState } from 'react-jhipster';
+import { openFile, Translate, TextFormat, JhiPagination, JhiItemCount, getSortState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { APP_DATE_FORMAT } from 'app/config/constants';
@@ -10,6 +10,9 @@ import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-u
 import { getUsersAsAdmin, updateUser } from './user-management.reducer';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getEntities as getClientEntities } from 'app/entities/client/client.reducer';
+import Sidebar from 'app/shared/layout/sidebar/Sidebar';
+
+import './UserManagement.css'; // Import the CSS file
 
 export const UserManagement = () => {
   const dispatch = useAppDispatch();
@@ -87,170 +90,166 @@ export const UserManagement = () => {
   const loading = useAppSelector(state => state.userManagement.loading);
   const clientList = useAppSelector(state => state.client.entities);
 
-
   return (
     <div>
-      <h2 id="user-management-page-heading" data-cy="userManagementPageHeading">
-        Liste Clients
-        <div className="d-flex justify-content-end">
-          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
-            <FontAwesomeIcon icon="sync" spin={loading} />{' '}
-            <Translate contentKey="userManagement.home.refreshListLabel">Refresh List</Translate>
-          </Button>
-          <Link to="new" className="btn btn-primary jh-create-entity">
-            <FontAwesomeIcon icon="plus" /> <Translate contentKey="userManagement.home.createLabel">Create a new user</Translate>
-          </Link>
+      <Sidebar />
+      <div className="table-wrapper">
+        <div className="d-flex justify-content-between align-items-center mb-3 p-3 custom-bg-color text-white rounded">
+          <h2 id="user-management-page-heading" data-cy="userManagementPageHeading" className="mb-0" style={{width:'200px'}}>
+            Liste Clients
+          </h2>
+          <div className="d-flex justify-content-end ajust3" style={{ gap: '10px' , marginLeft:'-10px'}}>
+            <Button className="btn btn-info me-2" onClick={handleSyncList} disabled={loading} style={{ width: '220px', height: '45px' }}>
+              <FontAwesomeIcon icon="sync" spin={loading} />{' '}
+              <Translate contentKey="userManagement.home.refreshListLabel">Refresh List</Translate>
+            </Button>
+            <Link to="new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton" style={{ width: '220px', height: '45px' }}>
+              <FontAwesomeIcon icon="plus" />  Créer un nouveau utilisateur
+            </Link>
+          </div>
         </div>
-      </h2>
-      <Table responsive striped>
-        <thead>
-          <tr>
-            <th className="hand" onClick={sort('id')}>
-              <Translate contentKey="global.field.id">ID</Translate>
-              <FontAwesomeIcon icon="sort" />
-            </th>
-
-            <th className="hand" onClick={sort('photo')}>
-                  <Translate contentKey="faeApp.client.photo">Photo</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
-                <th className="hand" onClick={sort('login')}>
-             Nom complet
-              <FontAwesomeIcon icon="sort" />
-            </th>
-            <th className="hand" onClick={sort('email')}>
-              <Translate contentKey="userManagement.email">Email</Translate>
-              <FontAwesomeIcon icon="sort" />
-            </th>
-            <th />
-            <th className="hand" onClick={sort('langKey')}>
-              <Translate contentKey="userManagement.langKey">Lang Key</Translate>
-              <FontAwesomeIcon icon="sort" />
-            </th>
-            <th>
-              <Translate contentKey="userManagement.profiles">Profiles</Translate>
-            </th>
-            <th className="hand" onClick={sort('createdDate')}>
-              <Translate contentKey="userManagement.createdDate">Created Date</Translate>
-              <FontAwesomeIcon icon="sort" />
-            </th>
-            <th className="hand" onClick={sort('lastModifiedBy')}>
-              <Translate contentKey="userManagement.lastModifiedBy">Last Modified By</Translate>
-              <FontAwesomeIcon icon="sort" />
-            </th>
-            <th id="modified-date-sort" className="hand" onClick={sort('lastModifiedDate')}>
-              <Translate contentKey="userManagement.lastModifiedDate">Last Modified Date</Translate>
-              <FontAwesomeIcon icon="sort" />
-            </th>
-
-
-            <th />
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user, i) => (
-            <tr id={user.login} key={`user-${i}`}>
-              <td>
-                <Button tag={Link} to={user.login} color="link" size="sm">
-                  {user.id}
-                </Button>
-              </td>
-              <td>
-              {clientList
-                ? clientList
-                    .filter(client => client.user.id === user.id)
-                    .map((client, j) => (
-                      <div key={`client-${i}-${j}`}>
-                        {client.photoContentType ? (
-                          <a onClick={openFile(client.photoContentType, client.photo)}>
-                            <img
-                              src={`data:${client.photoContentType};base64,${client.photo}`}
-                              style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover' }} // Augmenter la taille de l'image et ajouter le style pour un cercle
-                            />
-                            &nbsp;
-                          </a>
-                        ) : null}
-                      </div>
-                    ))
-                : null}
-            </td>
-            <td>{user.firstName} {user.lastName}</td> {/* Ajouter un espace entre user.firstName et user.lastName */}
-
-              <td>{user.email}</td>
-              <td>
-                {user.activated ? (
-                  <Button color="success" onClick={toggleActive(user)}>
-                    <Translate contentKey="userManagement.activated">Activated</Translate>
+        <div className="table-responsive">
+          <Table className="table-striped">
+            <thead className="thead-dark">
+            <tr>
+              <th className="hand" onClick={sort('id')}>
+                <Translate contentKey="global.field.id">ID</Translate>
+                <FontAwesomeIcon icon="sort" />
+              </th>
+              <th className="hand" onClick={sort('photo')}>
+                <Translate contentKey="faeApp.client.photo">Photo</Translate> <FontAwesomeIcon icon="sort" />
+              </th>
+              <th className="hand" onClick={sort('login')}>
+                Nom complet
+                <FontAwesomeIcon icon="sort" />
+              </th>
+              <th className="hand" onClick={sort('email')}>
+                <Translate contentKey="userManagement.email">Email</Translate>
+                <FontAwesomeIcon icon="sort" />
+              </th>
+              <th />
+              <th className="hand" onClick={sort('langKey')}>
+                <Translate contentKey="userManagement.langKey">Lang Key</Translate>
+                <FontAwesomeIcon icon="sort" />
+              </th>
+              <th>
+                <Translate contentKey="userManagement.profiles">Profiles</Translate>
+              </th>
+              <th className="hand" onClick={sort('createdDate')}>
+                <Translate contentKey="userManagement.createdDate">Created Date</Translate>
+                <FontAwesomeIcon icon="sort" />
+              </th>
+              <th className="hand" onClick={sort('lastModifiedBy')}>
+                <Translate contentKey="userManagement.lastModifiedBy">Last Modified By</Translate>
+                <FontAwesomeIcon icon="sort" />
+              </th>
+              <th id="modified-date-sort" className="hand" onClick={sort('lastModifiedDate')}>
+                <Translate contentKey="userManagement.lastModifiedDate">Last Modified Date</Translate>
+                <FontAwesomeIcon icon="sort" />
+              </th>
+              <th />
+            </tr>
+            </thead>
+            <tbody>
+            {users.map((user, i) => (
+              <tr id={user.login} key={`user-${i}`}>
+                <td>
+                  <Button tag={Link} to={user.login} color="link" size="sm">
+                    {user.id}
                   </Button>
-                ) : (
-                  <Button color="danger" onClick={toggleActive(user)}>
-                    <Translate contentKey="userManagement.deactivated">Deactivated</Translate>
-                  </Button>
-                )}
-              </td>
-              <td>{user.langKey}</td>
-              <td>
-                {user.authorities
-                  ? user.authorities.map((authority, j) => (
+                </td>
+                <td>
+                  {clientList
+                    ? clientList
+                      .filter(client => client.user.id === user.id)
+                      .map((client, j) => (
+                        <div key={`client-${i}-${j}`}>
+                          {client.photoContentType ? (
+                            <a onClick={openFile(client.photoContentType, client.photo)}>
+                              <img
+                                src={`data:${client.photoContentType};base64,${client.photo}`}
+                                style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover' }}
+                              />
+                              &nbsp;
+                            </a>
+                          ) : null}
+                        </div>
+                      ))
+                    : null}
+                </td>
+                <td>{user.firstName} {user.lastName}</td>
+                <td>{user.email}</td>
+                <td>
+                  {user.activated ? (
+                    <Button color="success" onClick={toggleActive(user)} style={{ padding: '5px 5px', fontSize: '12px' }} className="meme">
+                      <Translate contentKey="userManagement.activated">Activé</Translate>
+                    </Button>
+                  ) : (
+                    <Button color="danger" onClick={toggleActive(user)} style={{ padding: '5px 5px', fontSize: '12px'}}>
+                      <Translate contentKey="userManagement.deactivated">Désactivé</Translate>
+                    </Button>
+                  )}
+                </td>
+
+                <td>{user.langKey}</td>
+                <td>
+                  {user.authorities
+                    ? user.authorities.map((authority, j) => (
                       <div key={`user-auth-${i}-${j}`}>
                         <Badge color="info">{authority}</Badge>
                       </div>
                     ))
-                  : null}
-              </td>
-              <td>
-                {user.createdDate ? <TextFormat value={user.createdDate} type="date" format={APP_DATE_FORMAT} blankOnInvalid /> : null}
-              </td>
-              <td>{user.lastModifiedBy}</td>
-              <td>
-                {user.lastModifiedDate ? (
-                  <TextFormat value={user.lastModifiedDate} type="date" format={APP_DATE_FORMAT} blankOnInvalid />
-                ) : null}
-              </td>
-              <td className="text-end">
-                <div className="btn-group flex-btn-group-container">
-                  <Button tag={Link} to={user.login} color="info" size="sm">
-                    <FontAwesomeIcon icon="eye" />{' '}
-                    <span className="d-none d-md-inline">
-                      <Translate contentKey="entity.action.view">View</Translate>
-                    </span>
-                  </Button>
-                  <Button tag={Link} to={`${user.login}/edit`} color="primary" size="sm">
-                    <FontAwesomeIcon icon="pencil-alt" />{' '}
-                    <span className="d-none d-md-inline">
-                      <Translate contentKey="entity.action.edit">Edit</Translate>
-                    </span>
-                  </Button>
-                  <Button tag={Link} to={`${user.login}/delete`} color="danger" size="sm" disabled={account.login === user.login}>
-                    <FontAwesomeIcon icon="trash" />{' '}
-                    <span className="d-none d-md-inline">
-                      <Translate contentKey="entity.action.delete">Delete</Translate>
-                    </span>
-                  </Button>
-                </div>
-              </td>
+                    : null}
+                </td>
+                <td>
+                  {user.createdDate ? <TextFormat value={user.createdDate} type="date" format={APP_DATE_FORMAT} blankOnInvalid /> : null}
+                </td>
+                <td>{user.lastModifiedBy}</td>
+                <td>
+                  {user.lastModifiedDate ? (
+                    <TextFormat value={user.lastModifiedDate} type="date" format={APP_DATE_FORMAT} blankOnInvalid />
+                  ) : null}
+                </td>
+                <td className="text-end">
+                  <div className="btn-group flex-btn-group-container">
+                    <Button tag={Link} to={user.login} color="info" size="sm">
+                      <FontAwesomeIcon icon="eye" />{' '}
 
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-      {totalItems ? (
-        <div className={users?.length > 0 ? '' : 'd-none'}>
-          <div className="justify-content-center d-flex">
-            <JhiItemCount page={pagination.activePage} total={totalItems} itemsPerPage={pagination.itemsPerPage} i18nEnabled />
-          </div>
-          <div className="justify-content-center d-flex">
-            <JhiPagination
-              activePage={pagination.activePage}
-              onSelect={handlePagination}
-              maxButtons={5}
-              itemsPerPage={pagination.itemsPerPage}
-              totalItems={totalItems}
-            />
-          </div>
+                    </Button>
+                    <Button tag={Link} to={`${user.login}/edit`} color="primary" size="sm">
+                      <FontAwesomeIcon icon="pencil-alt" />{' '}
+
+                    </Button>
+                    <Button tag={Link} to={`${user.login}/delete`} color="danger" size="sm" disabled={account.login === user.login}>
+                      <FontAwesomeIcon icon="trash" />{' '}
+
+                    </Button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+            </tbody>
+          </Table>
         </div>
-      ) : (
-        ''
-      )}
+        {totalItems ? (
+          <div className={users?.length > 0 ? '' : 'd-none'}>
+            <div className="d-flex justify-content-center">
+              <JhiItemCount page={pagination.activePage} total={totalItems} itemsPerPage={pagination.itemsPerPage} i18nEnabled />
+            </div>
+            <div className="d-flex justify-content-center">
+              <JhiPagination
+                activePage={pagination.activePage}
+                onSelect={handlePagination}
+                maxButtons={5}
+                itemsPerPage={pagination.itemsPerPage}
+                totalItems={totalItems}
+              />
+            </div>
+          </div>
+        ) : (
+          ''
+        )}
+      </div>
     </div>
   );
 };

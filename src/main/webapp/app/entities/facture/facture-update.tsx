@@ -15,6 +15,8 @@ import { getEntities as getPaiements } from 'app/entities/paiement/paiement.redu
 import { IFacture } from 'app/shared/model/facture.model';
 import { getEntity, updateEntity, createEntity, reset } from './facture.reducer';
 
+ // Import the custom CSS file
+
 export const FactureUpdate = () => {
   const dispatch = useAppDispatch();
 
@@ -43,7 +45,7 @@ export const FactureUpdate = () => {
 
     dispatch(getDocuments({}));
     dispatch(getPaiements({}));
-  }, []);
+  }, [id, isNew]);
 
   useEffect(() => {
     if (updateSuccess) {
@@ -69,9 +71,9 @@ export const FactureUpdate = () => {
     isNew
       ? {}
       : {
-          ...factureEntity,
-          document: factureEntity?.document?.id,
-        };
+        ...factureEntity,
+        document: factureEntity?.document?.id,
+      };
 
   return (
     <div>
@@ -96,24 +98,40 @@ export const FactureUpdate = () => {
                   id="facture-id"
                   label={translate('global.field.id')}
                   validate={{ required: true }}
+                  className="custom-input-field" // Add the custom class here
                 />
               ) : null}
-              <ValidatedField label={translate('faeApp.facture.code')} id="facture-code" name="code" data-cy="code" type="text" />
-              <ValidatedField label={translate('faeApp.facture.etat')} id="facture-etat" name="etat" data-cy="etat" type="text" />
+              <ValidatedField
+                label={translate('faeApp.facture.code')}
+                id="facture-code"
+                name="code"
+                data-cy="code"
+                type="text"
+                className="custom-input-field" // Add the custom class here
+              />
+              <ValidatedField
+                label={translate('faeApp.facture.etat')}
+                id="facture-etat"
+                name="etat"
+                data-cy="etat"
+                type="text"
+                className="custom-input-field" // Add the custom class here
+              />
               <ValidatedField
                 id="facture-document"
                 name="document"
                 data-cy="document"
                 label={translate('faeApp.facture.document')}
                 type="select"
+                className="custom-input-field" // Add the custom class here
               >
                 <option value="" key="0" />
                 {documents
                   ? documents.map(otherEntity => (
-                      <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
-                      </option>
-                    ))
+                    <option value={otherEntity.id} key={otherEntity.id}>
+                      {otherEntity.id}
+                    </option>
+                  ))
                   : null}
               </ValidatedField>
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/facture" replace color="info">

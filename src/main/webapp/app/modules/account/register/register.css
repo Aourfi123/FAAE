@@ -1,0 +1,62 @@
+
+
+.register-form {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 530px;
+  text-align: center;
+  margin-left: 140px;
+}
+
+#register-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.submit-btn {
+  background: linear-gradient(to right, #151538, #2f80ed);
+  border: none;
+  color: #fff;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.submit-btn:hover {
+  background: linear-gradient(to right, #151538, #56ccf2);
+}
+
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 1rem;
+}
+
+.custom-checkbox input {
+  margin-right: 0.5rem;
+}
+
+.custom-checkbox a {
+  color: #58a6ff;
+}
+
+.custom-checkbox a:hover {
+  text-decoration: underline;
+}
+
+.login-link {
+  margin-top: 1rem;
+}
+
+.login-link a {
+  color: #58a6ff;
+  font-weight: bold;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}

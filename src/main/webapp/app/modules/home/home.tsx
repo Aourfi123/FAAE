@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { useAppSelector } from 'app/config/store';
 import {
   LineChart, Line, PieChart, Pie, Cell,
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
@@ -7,8 +7,8 @@ import {
 import { Translate } from 'react-jhipster';
 import { Link } from 'react-router-dom';
 import { Row, Col, Alert, Table } from 'reactstrap';
-import account from '../account';
-
+import Sidebar from "app/shared/layout/sidebar/Sidebar";
+import "./home.scss"
 const dataAnnuel = [
   { date: '2019', articlesCommandes: 100, commandes: 80, facturesPayees: 70, avoirs: 20 },
   { date: '2020', articlesCommandes: 120, commandes: 90, facturesPayees: 85, avoirs: 25 },
@@ -39,140 +39,143 @@ const Home = () => {
   const user = useAppSelector(state => state.authentication.account);
 
   return (
-    <div>
-      {user && user.authorities && user.authorities.includes('ROLE_ADMIN') ? (
-        <>
-          <h1>Dashboard</h1>
-          <br />
-          <div style={{ display: 'flex', flexWrap: 'wrap' , width: '100%' , margin:"auto"}}>
-            <div style={{ flex: '1 1 50%', height: 300 }}>
-              <ResponsiveContainer>
-                <LineChart data={dataAnnuel}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Line type="monotone" dataKey="articlesCommandes" stroke={COLORS[0]} name="Articles Commandés par année" />
-                </LineChart>
-              </ResponsiveContainer>
+    <div className="dashboard-container">
+      <Sidebar />
+      <div className="dashboard-content">
+        {user && user.authorities && user.authorities.includes('ROLE_ADMIN') ? (
+          <>
+            <h1>Dashboard</h1>
+            <br />
+            <div className="charts-container">
+              <div className="chart-wrapper">
+                <ResponsiveContainer>
+                  <LineChart data={dataAnnuel}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="articlesCommandes" stroke={COLORS[0]} name="Articles Commandés par année" />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="chart-wrapper">
+                <ResponsiveContainer>
+                  <PieChart>
+                    <Pie
+                      data={dataMensuel}
+                      name="Facture"
+                      dataKey="facturesPayees"
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      outerRadius={100}
+                      fill="#8884d8"
+                      label={({ date, value }) => `${date}: ${value}`}
+                    >
+                      {dataMensuel.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="chart-wrapper">
+                <ResponsiveContainer>
+                  <BarChart data={dataMensuel}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="articlesCommandes" fill={COLORS[0]} name="Articles Commandés par mois" />
+                    <Bar dataKey="commandes" fill={COLORS[1]} name="Commandes par mois" />
+                    <Bar dataKey="facturesPayees" fill={COLORS[2]} name="Factures Payées par mois" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="chart-wrapper">
+                <ResponsiveContainer>
+                  <BarChart data={dataAnnuel}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="avoirs" fill={COLORS[0]} name="Avoirs Générés par année" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
             </div>
-            <div style={{ flex: '1 1 50%', height: 300 }}>
-              <ResponsiveContainer>
-                <PieChart>
-                  <Pie
-                    data={dataMensuel}
-                    name="Facture"
-                    dataKey="facturesPayees"
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    outerRadius={100}
-                    fill="#8884d8"
-                    label={({ date, value }) => `${date}: ${value}`}
-                  >
-                    {dataMensuel.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-            <div style={{ flex: '1 1 50%', height: 300 }}>
-              <ResponsiveContainer>
-                <BarChart data={dataMensuel}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Bar dataKey="articlesCommandes" fill={COLORS[0]} name="Articles Commandés par mois" />
-                  <Bar dataKey="commandes" fill={COLORS[1]} name="Commandes par mois" />
-                  <Bar dataKey="facturesPayees" fill={COLORS[2]} name="Factures Payées par mois" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-            <div style={{ flex: '1 1 50%', height: 300 }}>
-              <ResponsiveContainer>
-                <BarChart data={dataAnnuel}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Bar dataKey="avoirs" fill={COLORS[0]} name="Avoirs Générés par année" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-          <div style={{ width: '85%', margin: 'auto' }}>
-
-          <Table striped>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Articles Commandés</th>
-                <th>Commandes</th>
-                <th>Factures Payées</th>
-                <th>Avoirs</th>
-              </tr>
-            </thead>
-            <tbody>
-              {dataMensuel.map((row, index) => (
-                <tr key={index}>
-                  <td>{row.date}</td>
-                  <td>{row.articlesCommandes}</td>
-                  <td>{row.commandes}</td>
-                  <td>{row.facturesPayees}</td>
-                  <td>{row.avoirs}</td>
+            <div className="table-container">
+              <Table striped>
+                <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Articles Commandés</th>
+                  <th>Commandes</th>
+                  <th>Factures Payées</th>
+                  <th>Avoirs</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
-          </div>
-        </>
-      ) : (
-        <Row>
-          <Col md="16" className="d-flex align-items-center">
-            <img src="content/images/michelin.png" alt="Logo" />
-            <div>
-              <h2>Welcome</h2>
-              <p className="lead">
-                <Translate contentKey="home.subtitle">This is your homepage</Translate>
-              </p>
-              <p></p>
-              {user?.login ? (
-                <Alert color="success">
-                  <Translate contentKey="home.logged.message" interpolate={{ username: user.login }}>
-                    You are logged in as user {user.login}.
-                  </Translate>
-                </Alert>
-              ) : (
-                <Alert color="warning">
-                  <Translate contentKey="global.messages.info.authenticated.prefix">If you want to </Translate>
-                  <Link to="/login" className="alert-link">
-                    <Translate contentKey="global.messages.info.authenticated.link"> sign in</Translate>
-                  </Link>
-                  <Translate contentKey="global.messages.info.authenticated.suffix">
-                    , you can try the default accounts:
-                    <br />- Administrator (login=&quot;admin&quot; and password=&quot;admin&quot;)
-                    <br />- User (login=&quot;user&quot; and password=&quot;user&quot;).
-                  </Translate>
-                </Alert>
-              )}
-              <h4>La gamme Michelin Collection vous propose:</h4>
-              <ul>
-                <li>L’étendue de gamme la plus large du marché (enrichie par l’apport régulier de nouvelles dimensions)</li>
-                <li>Longévité de la carcasse</li>
-                <li>Préservation de la valeur de votre automobile</li>
-                <li>Technologie moderne</li>
-                <li>Respect de l’authenticité historique des véhicules</li>
-              </ul>
+                </thead>
+                <tbody>
+                {dataMensuel.map((row, index) => (
+                  <tr key={index}>
+                    <td>{row.date}</td>
+                    <td>{row.articlesCommandes}</td>
+                    <td>{row.commandes}</td>
+                    <td>{row.facturesPayees}</td>
+                    <td>{row.avoirs}</td>
+                  </tr>
+                ))}
+                </tbody>
+              </Table>
             </div>
-          </Col>
-          <Col md="12"></Col>
-        </Row>
-      )}
+          </>
+        ) : (
+          <Row>
+            <Col md="16" className="d-flex align-items-center">
+              <Sidebar />
+              <img src="content/images/michelin.png" alt="Logo" />
+              <div>
+                <h2>Welcome</h2>
+                <p className="lead">
+                  <Translate contentKey="home.subtitle">This is your homepage</Translate>
+                </p>
+                <p></p>
+                {user?.login ? (
+                  <Alert color="success">
+                    <Translate contentKey="home.logged.message" interpolate={{ username: user.login }}>
+                      You are logged in as user {user.login}.
+                    </Translate>
+                  </Alert>
+                ) : (
+                  <Alert color="warning">
+                    <Translate contentKey="global.messages.info.authenticated.prefix">If you want to </Translate>
+                    <Link to="/login" className="alert-link">
+                      <Translate contentKey="global.messages.info.authenticated.link"> sign in</Translate>
+                    </Link>
+                    <Translate contentKey="global.messages.info.authenticated.suffix">
+                      , you can try the default accounts:
+                      <br />- Administrator (login=&quot;admin&quot; and password=&quot;admin&quot;)
+                      <br />- User (login=&quot;user&quot; and password=&quot;user&quot;).
+                    </Translate>
+                  </Alert>
+                )}
+                <h4>La gamme Michelin Collection vous propose:</h4>
+                <ul>
+                  <li>L’étendue de gamme la plus large du marché (enrichie par l’apport régulier de nouvelles dimensions)</li>
+                  <li>Longévité de la carcasse</li>
+                  <li>Préservation de la valeur de votre automobile</li>
+                  <li>Technologie moderne</li>
+                  <li>Respect de l’authenticité historique des véhicules</li>
+                </ul>
+              </div>
+            </Col>
+            <Col md="12"></Col>
+          </Row>
+        )}
+      </div>
     </div>
   );
 };

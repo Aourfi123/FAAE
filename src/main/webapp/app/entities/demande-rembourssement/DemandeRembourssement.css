@@ -46,3 +46,15 @@ h2 {
 .jh-create-invoice {
   margin-left: 10px;
 }
+.position{
+  margin-right: 100px;
+}
+ajustt{
+  margin-right: -100px;
+}
+.custom-model-width1{
+  max-width: 750px;
+  margin-right: 500px;
+  height : 1200px;
+}
+

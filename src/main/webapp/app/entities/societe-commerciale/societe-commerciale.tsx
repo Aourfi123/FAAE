@@ -3,18 +3,16 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
 import { Translate, getSortState, JhiPagination, JhiItemCount } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
-import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-
-import { ISocieteCommerciale } from 'app/shared/model/societe-commerciale.model';
 import { getEntities } from './societe-commerciale.reducer';
+
+import './SocieteCommerciale.css';
+import {ASC, DESC, ITEMS_PER_PAGE, SORT} from "app/shared/util/pagination.constants";
+import Sidebar from "app/shared/layout/sidebar/Sidebar"; // Custom CSS for additional styling
 
 export const SocieteCommerciale = () => {
   const dispatch = useAppDispatch();
-
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -83,29 +81,29 @@ export const SocieteCommerciale = () => {
 
   return (
     <div>
-      <h2 id="societe-commerciale-heading" data-cy="SocieteCommercialeHeading">
-        <Translate contentKey="faeApp.societeCommerciale.home.title">Societe Commerciales</Translate>
-        <div className="d-flex justify-content-end">
-          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
-            <FontAwesomeIcon icon="sync" spin={loading} />{' '}
-            <Translate contentKey="faeApp.societeCommerciale.home.refreshListLabel">Refresh List</Translate>
-          </Button>
-          <Link
-            to="/societe-commerciale/new"
-            className="btn btn-primary jh-create-entity"
-            id="jh-create-entity"
-            data-cy="entityCreateButton"
-          >
-            <FontAwesomeIcon icon="plus" />
-            &nbsp;
-            <Translate contentKey="faeApp.societeCommerciale.home.createLabel">Create new Societe Commerciale</Translate>
-          </Link>
+      <Sidebar/>
+      <div className="table-wrapper">
+        <div className="d-flex justify-content-between align-items-center mb-3 p-3 custom-bg-color text-white rounded">
+          <h2 id="societe-commerciale-heading" data-cy="SocieteCommercialeHeading" className="mb-0">
+            <Translate contentKey="faeApp.societeCommerciale.home.title">Societe Commerciales</Translate>
+          </h2>
+          <div className="d-flex justify-content-end ajust" style={{ gap: '10px', left: '100px' }}>
+            <Button className="btn btn-info" onClick={handleSyncList} disabled={loading} style={{ width: '220px', height: '48px' }}>
+              <FontAwesomeIcon icon="sync" spin={loading} />{' '}
+              <Translate contentKey="faeApp.article.home.refreshListLabel">Actualiser la liste</Translate>
+            </Button>
+            <Button className="btn btn-success" tag={Link} to="/societe-commerciale/new" style={{ width: '220px', height: '48px' }}>
+              <FontAwesomeIcon icon="plus" />Créer une nouvelle Societe Commerciale
+              &nbsp;
+            </Button>
+          </div>
+
+
         </div>
-      </h2>
-      <div className="table-responsive">
-        {societeCommercialeList && societeCommercialeList.length > 0 ? (
-          <Table responsive>
-            <thead>
+        <div className="table-responsive">
+          {societeCommercialeList && societeCommercialeList.length > 0 ? (
+            <Table className="table-striped">
+              <thead className="thead-dark">
               <tr>
                 <th className="hand" onClick={sort('id')}>
                   <Translate contentKey="faeApp.societeCommerciale.id">ID</Translate> <FontAwesomeIcon icon="sort" />
@@ -119,10 +117,10 @@ export const SocieteCommerciale = () => {
                 <th className="hand" onClick={sort('devise')}>
                   <Translate contentKey="faeApp.societeCommerciale.devise">Devise</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th />
+                <th>Actions</th>
               </tr>
-            </thead>
-            <tbody>
+              </thead>
+              <tbody>
               {societeCommercialeList.map((societeCommerciale, i) => (
                 <tr key={`entity-${i}`} data-cy="entityTable">
                   <td>
@@ -142,10 +140,7 @@ export const SocieteCommerciale = () => {
                         size="sm"
                         data-cy="entityDetailsButton"
                       >
-                        <FontAwesomeIcon icon="eye" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.view">View</Translate>
-                        </span>
+                        <FontAwesomeIcon icon="eye" />
                       </Button>
                       <Button
                         tag={Link}
@@ -154,10 +149,7 @@ export const SocieteCommerciale = () => {
                         size="sm"
                         data-cy="entityEditButton"
                       >
-                        <FontAwesomeIcon icon="pencil-alt" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.edit">Edit</Translate>
-                        </span>
+                        <FontAwesomeIcon icon="pencil-alt" />
                       </Button>
                       <Button
                         tag={Link}
@@ -166,43 +158,41 @@ export const SocieteCommerciale = () => {
                         size="sm"
                         data-cy="entityDeleteButton"
                       >
-                        <FontAwesomeIcon icon="trash" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.delete">Delete</Translate>
-                        </span>
+                        <FontAwesomeIcon icon="trash" />
                       </Button>
                     </div>
                   </td>
                 </tr>
               ))}
-            </tbody>
-          </Table>
-        ) : (
-          !loading && (
-            <div className="alert alert-warning">
-              <Translate contentKey="faeApp.societeCommerciale.home.notFound">No Societe Commerciales found</Translate>
+              </tbody>
+            </Table>
+          ) : (
+            !loading && (
+              <div className="alert alert-warning">
+                <Translate contentKey="faeApp.societeCommerciale.home.notFound">No Societe Commerciales found</Translate>
+              </div>
+            )
+          )}
+        </div>
+        {totalItems ? (
+          <div className={societeCommercialeList && societeCommercialeList.length > 0 ? '' : 'd-none'}>
+            <div className="d-flex justify-content-end">
+              <JhiItemCount page={paginationState.activePage} total={totalItems} itemsPerPage={paginationState.itemsPerPage} i18nEnabled />
             </div>
-          )
+            <div className="d-flex justify-content-end">
+              <JhiPagination
+                activePage={paginationState.activePage}
+                onSelect={handlePagination}
+                maxButtons={5}
+                itemsPerPage={paginationState.itemsPerPage}
+                totalItems={totalItems}
+              />
+            </div>
+          </div>
+        ) : (
+          ''
         )}
       </div>
-      {totalItems ? (
-        <div className={societeCommercialeList && societeCommercialeList.length > 0 ? '' : 'd-none'}>
-          <div className="justify-content-center d-flex">
-            <JhiItemCount page={paginationState.activePage} total={totalItems} itemsPerPage={paginationState.itemsPerPage} i18nEnabled />
-          </div>
-          <div className="justify-content-center d-flex">
-            <JhiPagination
-              activePage={paginationState.activePage}
-              onSelect={handlePagination}
-              maxButtons={5}
-              itemsPerPage={paginationState.itemsPerPage}
-              totalItems={totalItems}
-            />
-          </div>
-        </div>
-      ) : (
-        ''
-      )}
     </div>
   );
 };

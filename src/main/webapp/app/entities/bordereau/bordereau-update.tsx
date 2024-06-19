@@ -14,18 +14,20 @@ import { createEntity as createEntityClientBordereau } from 'app/entities/client
 import { createEntity as createEntityLigneBordereau } from 'app/entities/lignes-bordereau/lignes-bordereau.reducer';
 import { IClient } from 'app/shared/model/client.model';
 import { IArticle } from 'app/shared/model/article.model';
+import Sidebar from 'app/shared/layout/sidebar/Sidebar';
 
 import './styles.css';
 
 const ProgressBar = ({ currentStep }) => (
   <div className="progress-container">
-    <div className="step-label">Step 1</div>
-    <div className="progress-bar">
-      <div className="progress-bar-fill" style={{ width: currentStep >= 1 ? '100%' : '0' }}></div>
+    <div className={`step ${currentStep >= 1 ? 'active' : ''}`}>
+      <div className="circle">1</div>
+      <div className="step-label">Step 1</div>
     </div>
-    <div className="step-label">Step 2</div>
-    <div className="progress-bar">
-      <div className="progress-bar-fill" style={{ width: currentStep >= 2 ? '100%' : '0' }}></div>
+    <div className="line"></div>
+    <div className={`step ${currentStep >= 2 ? 'active' : ''}`}>
+      <div className="circle">2</div>
+      <div className="step-label">Step 2</div>
     </div>
   </div>
 );
@@ -46,14 +48,6 @@ const BordereauUpdate = () => {
   const [clients, setClients] = useState<IClient>();
   const [selectedArticles, setSelectedArticles] = useState([]);
   const [currentStep, setCurrentStep] = useState(1);
-  const [montantTotal, setMontantTotal] = useState(0);
-
-  const [formData, setFormData] = useState({
-    reference: '',
-    etat: 'En attente',
-    dateCreation: new Date().toISOString().split('T')[0],
-    clients: ''
-  });
 
   const handleClose = () => {
     navigate('/bordereau' + location.search);
@@ -64,9 +58,13 @@ const BordereauUpdate = () => {
       dispatch(reset());
       dispatch(getArticles({}));
       dispatch(getClients({}));
+
     } else {
       dispatch(getEntity(id));
     }
+    dispatch(getArticles({}));
+    dispatch(getClients({}));
+    console.log("mimi" + articleList);
   }, []);
 
   useEffect(() => {
@@ -74,15 +72,6 @@ const BordereauUpdate = () => {
       handleClose();
     }
   }, [updateSuccess]);
-
-  useEffect(() => {
-    calculateMontantTotal();
-  }, [selectedArticles]);
-
-  const handleFieldChange = e => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
 
   const handleArticlesChange = e => {
     const selectedId = e.target.value;
@@ -108,18 +97,9 @@ const BordereauUpdate = () => {
     setSelectedArticles(newSelectedArticles);
   };
 
-  const calculateMontantTotal = () => {
-    let total = 0;
-    selectedArticles.forEach(item => {
-      total += item.article.diametre * item.quantite;
-    });
-    setMontantTotal(total);
-  };
-
   const saveEntity = async values => {
     const entity = {
       ...bordereauEntity,
-      ...formData,
       ...values,
     };
 
@@ -130,20 +110,19 @@ const BordereauUpdate = () => {
       for (const item of selectedArticles) {
         const ligneBordereauEntity = {
           bordereaus: newBordereauId,
-          articles: articleList.find(a => a.id == item.article.id),
+          articles: item.article,
           dateDebut: new Date(),
           quantite: item.quantite,
         };
         await dispatch(createEntityLigneBordereau(ligneBordereauEntity));
       }
 
+      const clientId = values.clients;
       const clientBordereauEntity = {
         bordereaus: newBordereauId,
         dateDebut: new Date(),
         clients: clients
       };
-      console.log("liste client :"+clientList)
-      console.log("form data : "+ formData.clients)
       await dispatch(createEntityClientBordereau(clientBordereauEntity));
     } else {
       await dispatch(updateEntity(entity));
@@ -152,10 +131,10 @@ const BordereauUpdate = () => {
 
   const defaultValues = () =>
     isNew
-      ? { ...formData }
+      ? {}
       : {
-          ...bordereauEntity,
-        };
+        ...bordereauEntity,
+      };
 
   const handleNextStep = () => {
     setCurrentStep(currentStep + 1);
@@ -167,22 +146,26 @@ const BordereauUpdate = () => {
 
   return (
     <div className="centralized-container">
+      <Sidebar />
       <Row className="justify-content-center">
-        <Col md="8">
+        <Col>
           <h2 id="faeApp.bordereau.home.createOrEditLabel" data-cy="BordereauCreateUpdateHeading">
             <Translate contentKey="faeApp.bordereau.home.createOrEditLabel">Create or edit a Bordereau</Translate>
           </h2>
         </Col>
+
       </Row>
+      <br></br>
+      <br></br>
       <ProgressBar currentStep={currentStep} />
-      <Row className="justify-content-center" style={{ marginLeft: "110px" }}>
+      <Row className="justify-content-center">
         <Col md="8">
           {loading ? (
             <p>Loading...</p>
           ) : (
             <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
               {currentStep === 1 && (
-                <div>
+                <div className=" step-form">
                   {!isNew ? (
                     <ValidatedField
                       name="id"
@@ -199,17 +182,14 @@ const BordereauUpdate = () => {
                     name="reference"
                     data-cy="reference"
                     type="text"
-                    onChange={handleFieldChange}
-                    value={formData.reference}
                   />
+                  <ValidatedField label={translate('faeApp.bordereau.etat')} id="bordereau-etat" name="etat" data-cy="etat" type="text" />
                   <ValidatedField
-                    label={translate('faeApp.bordereau.etat')}
-                    id="bordereau-etat"
-                    name="etat"
-                    data-cy="etat"
+                    label={translate('faeApp.bordereau.montantTotal')}
+                    id="bordereau-montantTotal"
+                    name="montantTotal"
+                    data-cy="montantTotal"
                     type="text"
-                    disabled
-                    value={formData.etat}
                   />
                   <ValidatedField
                     label={translate('faeApp.bordereau.dateCreation')}
@@ -217,16 +197,24 @@ const BordereauUpdate = () => {
                     name="dateCreation"
                     data-cy="dateCreation"
                     type="date"
-                    value={formData.dateCreation}
-                    disabled
                   />
-                  <Button onClick={handleNextStep} color="primary">
+                  <ValidatedField
+                    label={translate('faeApp.bordereau.dateModification')}
+                    id="bordereau-dateModification"
+                    name="dateModification"
+                    data-cy="dateModification"
+                    type="date"
+                  />
+                  <div>
+                  </div>
+                  <Button onClick={handleNextStep} className="coll" style={{ marginLeft: '-330px', width : '100px'}}>
                     Next
                   </Button>
                 </div>
+
               )}
               {currentStep === 2 && (
-                <div>
+                <div className="step-for">
                   <ValidatedField
                     id="reduction-article"
                     name="articles"
@@ -238,10 +226,10 @@ const BordereauUpdate = () => {
                     <option value="" key="0" />
                     {articleList
                       ? articleList.map(article => (
-                          <option value={article.id} key={article.id}>
-                            {article.modele}
-                          </option>
-                        ))
+                        <option value={article.id} key={article.id}>
+                          {article.modele}
+                        </option>
+                      ))
                       : null}
                   </ValidatedField>
                   <ValidatedField
@@ -255,79 +243,70 @@ const BordereauUpdate = () => {
                     <option value="" key="0" />
                     {clientList
                       ? clientList.map(otherEntity => (
-                          <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
-                          </option>
-                        ))
+                        <option value={otherEntity.id} key={otherEntity.id}>
+                          {otherEntity.id}
+                        </option>
+                      ))
                       : null}
                   </ValidatedField>
-                  <ValidatedField
-                    label={translate('faeApp.bordereau.montantTotal')}
-                    id="bordereau-montantTotal"
-                    name="montantTotal"
-                    data-cy="montantTotal"
-                    type="text"
-                    value={montantTotal}
-                    disabled
-                  />
-                  <Button onClick={addArticle} color="secondary" id="add-article" data-cy="addArticleButton">
+                  <Button onClick={addArticle} className="bout1" color="secondary" id="add-article" data-cy="addArticleButton">
                     Add Article
                   </Button>
-
-                  <Button onClick={handlePrevStep} color="secondary">
+                  <Button onClick={handlePrevStep} className="bout" color="secondary">
                     Previous
                   </Button>
                   &nbsp;
-                  <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
+                  <Button  id="save-entity" className="bout2" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
                     <FontAwesomeIcon icon="save" />
                     &nbsp;
                     <Translate contentKey="entity.action.save">Save</Translate>
                   </Button>
                 </div>
+
               )}
             </ValidatedForm>
           )}
         </Col>
-        <Col md="4">
+        <Col md="8">
           {currentStep === 2 && (
-            <div>
+            <div className="selected-articles">
               <h3>Selected Articles</h3>
               <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
                 <Table striped bordered hover>
                   <thead>
-                    <tr>
-                      <th>Image</th>
-                      <th>Article</th>
-                      <th>Quantité</th>
-                    </tr>
+                  <tr>
+                    <th>Image</th>
+                    <th>Article</th>
+                    <th>Quantité</th>
+                  </tr>
                   </thead>
                   <tbody>
-                    {selectedArticles.map((item, index) => (
-                      <tr key={index}>
-                        <td>
-                          {item.article.photo ? (
-                            <div>
-                              {item.article.photoContentType ? (
-                                <a onClick={openFile(item.article.photoContentType, item.article.photo)}>
-                                  <img src={`data:${item.article.photoContentType};base64,${item.article.photo}`} style={{ maxHeight: '30px' }} />
-                                  &nbsp;
-                                </a>
-                              ) : null}
-                            </div>
-                          ) : null}
-                        </td>
-                        <td>{item.article.modele}</td>
-                        <td>
-                          <Input
-                            type="number"
-                            value={item.quantite}
-                            onChange={e => handleQuantiteChange(index, parseInt(e.target.value, 10))}
-                            min="1"
-                            style={{ width: '80px' }}
-                          />
-                        </td>
-                      </tr>
-                    ))}
+                  {selectedArticles.map((item, index) => (
+                    <tr key={index}>
+                      <td>
+                        {item.article.photo ? (
+                          <div>
+                            {item.article.photoContentType ? (
+                              <a onClick={openFile(item.article.photoContentType, item.article.photo)}>
+                                <img src={`data:${item.article.photoContentType};base64,${item.article.photo}`} style={{ maxHeight: '30px' }} />
+                                &nbsp;
+                              </a>
+                            ) : null}
+                          </div>
+                        ) : null}
+                      </td>
+                      <td>{item.article.modele}</td>
+                      <td>
+                        <Input
+                          type="number"
+                          value={item.quantite}
+                          onChange={e => handleQuantiteChange(index, parseInt(e.target.value, 10))}
+                          min="1"
+                          style={{ width: '80px' }}
+                        />
+                      </td>
+                    </tr>
+                  ))}
                   </tbody>
                 </Table>
               </div>

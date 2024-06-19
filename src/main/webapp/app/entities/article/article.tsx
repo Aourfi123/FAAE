@@ -9,8 +9,10 @@ import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.cons
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-import { IArticle } from 'app/shared/model/article.model';
 import { getEntities } from './article.reducer';
+import Sidebar from 'app/shared/layout/sidebar/Sidebar';
+
+import './article.css'; // Import the CSS file
 
 export const Article = () => {
   const dispatch = useAppDispatch();
@@ -83,24 +85,28 @@ export const Article = () => {
 
   return (
     <div>
-      <h2 id="article-heading" data-cy="ArticleHeading">
-        <Translate contentKey="faeApp.article.home.title">Articles</Translate>
-        <div className="d-flex justify-content-end">
-          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
-            <FontAwesomeIcon icon="sync" spin={loading} />{' '}
-            <Translate contentKey="faeApp.article.home.refreshListLabel">Refresh List</Translate>
-          </Button>
-          <Link to="/article/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
-            <FontAwesomeIcon icon="plus" />
-            &nbsp;
-            <Translate contentKey="faeApp.article.home.createLabel">Create new Article</Translate>
-          </Link>
+      <Sidebar />
+      <div className="table-wrapper">
+        <div className="d-flex justify-content-between align-items-center mb-3 p-3 custom-bg-color text-white rounded">
+          <h2 id="article-heading" data-cy="ArticleHeading" className="mb-0">
+            <Translate contentKey="faeApp.article.home.title">Articles</Translate>
+          </h2>
+          <div  className="d-flex justify-content-end ajust2" style={{ gap: '10px', marginLeft: '350px' }}>
+            <Button className="bt btn-info me-2" onClick={handleSyncList} disabled={loading} style={{ width: '220px', height: '40px' }}>
+              <FontAwesomeIcon icon="sync" spin={loading} />{' '}
+              <Translate contentKey="faeApp.article.home.refreshListLabel">Refresh List</Translate>
+            </Button>
+            <Link to="/article/new" className="btn btn-primary btn-success jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton" style={{ width: '220px', height: '40px' }}>
+              <FontAwesomeIcon icon="plus" />
+              &nbsp;
+              <Translate contentKey="faeApp.article.home.createLabel">Create new Article</Translate>
+            </Link>
+          </div>
         </div>
-      </h2>
-      <div className="table-responsive">
-        {articleList && articleList.length > 0 ? (
-          <Table responsive>
-            <thead>
+        <div className="table-responsive">
+          {articleList && articleList.length > 0 ? (
+            <Table className="table-striped">
+              <thead className="thead-dark">
               <tr>
                 <th className="hand" onClick={sort('id')}>
                   <Translate contentKey="faeApp.article.id">ID</Translate> <FontAwesomeIcon icon="sort" />
@@ -128,8 +134,8 @@ export const Article = () => {
                 </th>
                 <th />
               </tr>
-            </thead>
-            <tbody>
+              </thead>
+              <tbody>
               {articleList.map((article, i) => (
                 <tr key={`entity-${i}`} data-cy="entityTable">
                   <td>
@@ -152,8 +158,8 @@ export const Article = () => {
                           </a>
                         ) : null}
                         <span>
-                          {article.photoContentType}, {byteSize(article.photo)}
-                        </span>
+                            {article.photoContentType}, {byteSize(article.photo)}
+                          </span>
                       </div>
                     ) : null}
                   </td>
@@ -164,9 +170,7 @@ export const Article = () => {
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`/article/${article.id}`} color="info" size="sm" data-cy="entityDetailsButton">
                         <FontAwesomeIcon icon="eye" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.view">View</Translate>
-                        </span>
+
                       </Button>
                       <Button
                         tag={Link}
@@ -176,9 +180,7 @@ export const Article = () => {
                         data-cy="entityEditButton"
                       >
                         <FontAwesomeIcon icon="pencil-alt" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.edit">Edit</Translate>
-                        </span>
+
                       </Button>
                       <Button
                         tag={Link}
@@ -188,42 +190,41 @@ export const Article = () => {
                         data-cy="entityDeleteButton"
                       >
                         <FontAwesomeIcon icon="trash" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.delete">Delete</Translate>
-                        </span>
+
                       </Button>
                     </div>
                   </td>
                 </tr>
               ))}
-            </tbody>
-          </Table>
-        ) : (
-          !loading && (
-            <div className="alert alert-warning">
-              <Translate contentKey="faeApp.article.home.notFound">No Articles found</Translate>
+              </tbody>
+            </Table>
+          ) : (
+            !loading && (
+              <div className="alert alert-warning">
+                <Translate contentKey="faeApp.article.home.notFound">No Articles found</Translate>
+              </div>
+            )
+          )}
+        </div>
+        {totalItems ? (
+          <div className={articleList && articleList.length > 0 ? '' : 'd-none'}>
+            <div className="d-flex justify-content-center">
+              <JhiItemCount page={paginationState.activePage} total={totalItems} itemsPerPage={paginationState.itemsPerPage} i18nEnabled />
             </div>
-          )
+            <div className="d-flex justify-content-center">
+              <JhiPagination
+                activePage={paginationState.activePage}
+                onSelect={handlePagination}
+                maxButtons={5}
+                itemsPerPage={paginationState.itemsPerPage}
+                totalItems={totalItems}
+              />
+            </div>
+          </div>
+        ) : (
+          ''
         )}
       </div>
-      {totalItems ? (
-        <div className={articleList && articleList.length > 0 ? '' : 'd-none'}>
-          <div className="justify-content-center d-flex">
-            <JhiItemCount page={paginationState.activePage} total={totalItems} itemsPerPage={paginationState.itemsPerPage} i18nEnabled />
-          </div>
-          <div className="justify-content-center d-flex">
-            <JhiPagination
-              activePage={paginationState.activePage}
-              onSelect={handlePagination}
-              maxButtons={5}
-              itemsPerPage={paginationState.itemsPerPage}
-              totalItems={totalItems}
-            />
-          </div>
-        </div>
-      ) : (
-        ''
-      )}
     </div>
   );
 };

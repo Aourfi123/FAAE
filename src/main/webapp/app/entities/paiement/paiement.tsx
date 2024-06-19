@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { IPaiement } from 'app/shared/model/paiement.model';
 import { getEntities } from './paiement.reducer';
+import Sidebar from "app/shared/layout/sidebar/Sidebar";
 
 export const Paiement = () => {
   const dispatch = useAppDispatch();
@@ -83,6 +84,7 @@ export const Paiement = () => {
 
   return (
     <div>
+      <Sidebar/>
       <h2 id="paiement-heading" data-cy="PaiementHeading">
         <Translate contentKey="faeApp.paiement.home.title">Paiements</Translate>
         <div className="d-flex justify-content-end">
@@ -101,73 +103,73 @@ export const Paiement = () => {
         {paiementList && paiementList.length > 0 ? (
           <Table responsive>
             <thead>
-              <tr>
-                <th className="hand" onClick={sort('id')}>
-                  <Translate contentKey="faeApp.paiement.id">ID</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
-                <th className="hand" onClick={sort('reference')}>
-                  <Translate contentKey="faeApp.paiement.reference">Reference</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
-                <th className="hand" onClick={sort('date')}>
-                  <Translate contentKey="faeApp.paiement.date">Date</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
-                <th className="hand" onClick={sort('typePaiement')}>
-                  <Translate contentKey="faeApp.paiement.typePaiement">Type Paiement</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
-                <th>
-                  <Translate contentKey="faeApp.paiement.facture">Facture</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
-                <th />
-              </tr>
+            <tr>
+              <th className="hand" onClick={sort('id')}>
+                <Translate contentKey="faeApp.paiement.id">ID</Translate> <FontAwesomeIcon icon="sort" />
+              </th>
+              <th className="hand" onClick={sort('reference')}>
+                <Translate contentKey="faeApp.paiement.reference">Reference</Translate> <FontAwesomeIcon icon="sort" />
+              </th>
+              <th className="hand" onClick={sort('date')}>
+                <Translate contentKey="faeApp.paiement.date">Date</Translate> <FontAwesomeIcon icon="sort" />
+              </th>
+              <th className="hand" onClick={sort('typePaiement')}>
+                <Translate contentKey="faeApp.paiement.typePaiement">Type Paiement</Translate> <FontAwesomeIcon icon="sort" />
+              </th>
+              <th>
+                <Translate contentKey="faeApp.paiement.facture">Facture</Translate> <FontAwesomeIcon icon="sort" />
+              </th>
+              <th />
+            </tr>
             </thead>
             <tbody>
-              {paiementList.map((paiement, i) => (
-                <tr key={`entity-${i}`} data-cy="entityTable">
-                  <td>
-                    <Button tag={Link} to={`/paiement/${paiement.id}`} color="link" size="sm">
-                      {paiement.id}
-                    </Button>
-                  </td>
-                  <td>{paiement.reference}</td>
-                  <td>{paiement.date ? <TextFormat type="date" value={paiement.date} format={APP_LOCAL_DATE_FORMAT} /> : null}</td>
-                  <td>{paiement.typePaiement}</td>
-                  <td>{paiement.facture ? <Link to={`/facture/${paiement.facture.id}`}>{paiement.facture.id}</Link> : ''}</td>
-                  <td className="text-end">
-                    <div className="btn-group flex-btn-group-container">
-                      <Button tag={Link} to={`/paiement/${paiement.id}`} color="info" size="sm" data-cy="entityDetailsButton">
-                        <FontAwesomeIcon icon="eye" />{' '}
-                        <span className="d-none d-md-inline">
+            {paiementList.map((paiement, i) => (
+              <tr key={`entity-${i}`} data-cy="entityTable">
+                <td>
+                  <Button tag={Link} to={`/paiement/${paiement.id}`} color="link" size="sm">
+                    {paiement.id}
+                  </Button>
+                </td>
+                <td>{paiement.reference}</td>
+                <td>{paiement.date ? <TextFormat type="date" value={paiement.date} format={APP_LOCAL_DATE_FORMAT} /> : null}</td>
+                <td>{paiement.typePaiement}</td>
+                <td>{paiement.facture ? <Link to={`/facture/${paiement.facture.id}`}>{paiement.facture.id}</Link> : ''}</td>
+                <td className="text-end">
+                  <div className="btn-group flex-btn-group-container">
+                    <Button tag={Link} to={`/paiement/${paiement.id}`} color="info" size="sm" data-cy="entityDetailsButton">
+                      <FontAwesomeIcon icon="eye" />{' '}
+                      <span className="d-none d-md-inline">
                           <Translate contentKey="entity.action.view">View</Translate>
                         </span>
-                      </Button>
-                      <Button
-                        tag={Link}
-                        to={`/paiement/${paiement.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
-                        color="primary"
-                        size="sm"
-                        data-cy="entityEditButton"
-                      >
-                        <FontAwesomeIcon icon="pencil-alt" />{' '}
-                        <span className="d-none d-md-inline">
+                    </Button>
+                    <Button
+                      tag={Link}
+                      to={`/paiement/${paiement.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
+                      color="primary"
+                      size="sm"
+                      data-cy="entityEditButton"
+                    >
+                      <FontAwesomeIcon icon="pencil-alt" />{' '}
+                      <span className="d-none d-md-inline">
                           <Translate contentKey="entity.action.edit">Edit</Translate>
                         </span>
-                      </Button>
-                      <Button
-                        tag={Link}
-                        to={`/paiement/${paiement.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
-                        color="danger"
-                        size="sm"
-                        data-cy="entityDeleteButton"
-                      >
-                        <FontAwesomeIcon icon="trash" />{' '}
-                        <span className="d-none d-md-inline">
+                    </Button>
+                    <Button
+                      tag={Link}
+                      to={`/paiement/${paiement.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
+                      color="danger"
+                      size="sm"
+                      data-cy="entityDeleteButton"
+                    >
+                      <FontAwesomeIcon icon="trash" />{' '}
+                      <span className="d-none d-md-inline">
                           <Translate contentKey="entity.action.delete">Delete</Translate>
                         </span>
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                    </Button>
+                  </div>
+                </td>
+              </tr>
+            ))}
             </tbody>
           </Table>
         ) : (

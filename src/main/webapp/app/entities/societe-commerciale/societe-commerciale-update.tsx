@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Button, Row, Col, FormText } from 'reactstrap';
-import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
+import { Button, Row, Col, Card, CardBody, CardTitle } from 'reactstrap';
+import { Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
-import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-import { ISocieteCommerciale } from 'app/shared/model/societe-commerciale.model';
 import { getEntity, updateEntity, createEntity, reset } from './societe-commerciale.reducer';
+
+import './societeCommercialeUpdate.css';
+import Sidebar from "app/shared/layout/sidebar/Sidebar";
 
 export const SocieteCommercialeUpdate = () => {
   const dispatch = useAppDispatch();
+
   const navigate = useNavigate();
 
   const { id } = useParams<'id'>();
@@ -33,7 +33,7 @@ export const SocieteCommercialeUpdate = () => {
     } else {
       dispatch(getEntity(id));
     }
-  }, []);
+  }, [id, isNew]);
 
   useEffect(() => {
     if (updateSuccess) {
@@ -58,70 +58,77 @@ export const SocieteCommercialeUpdate = () => {
     isNew
       ? {}
       : {
-          ...societeCommercialeEntity,
-        };
+        ...societeCommercialeEntity,
+      };
 
   return (
-    <div>
+    <div className="container update-form">
+      <Sidebar/>
       <Row className="justify-content-center">
-        <Col md="8">
-          <h2 id="faeApp.societeCommerciale.home.createOrEditLabel" data-cy="SocieteCommercialeCreateUpdateHeading">
-            <Translate contentKey="faeApp.societeCommerciale.home.createOrEditLabel">Create or edit a SocieteCommerciale</Translate>
-          </h2>
-        </Col>
-      </Row>
-      <Row className="justify-content-center">
-        <Col md="8">
-          {loading ? (
-            <p>Loading...</p>
-          ) : (
-            <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
-              {!isNew ? (
-                <ValidatedField
-                  name="id"
-                  required
-                  readOnly
-                  id="societe-commerciale-id"
-                  label={translate('global.field.id')}
-                  validate={{ required: true }}
-                />
-              ) : null}
-              <ValidatedField
-                label={translate('faeApp.societeCommerciale.codePays')}
-                id="societe-commerciale-codePays"
-                name="codePays"
-                data-cy="codePays"
-                type="text"
-              />
-              <ValidatedField
-                label={translate('faeApp.societeCommerciale.libelle')}
-                id="societe-commerciale-libelle"
-                name="libelle"
-                data-cy="libelle"
-                type="text"
-              />
-              <ValidatedField
-                label={translate('faeApp.societeCommerciale.devise')}
-                id="societe-commerciale-devise"
-                name="devise"
-                data-cy="devise"
-                type="text"
-              />
-              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/societe-commerciale" replace color="info">
-                <FontAwesomeIcon icon="arrow-left" />
-                &nbsp;
-                <span className="d-none d-md-inline">
-                  <Translate contentKey="entity.action.back">Back</Translate>
-                </span>
-              </Button>
-              &nbsp;
-              <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
-                <FontAwesomeIcon icon="save" />
-                &nbsp;
-                <Translate contentKey="entity.action.save">Save</Translate>
-              </Button>
-            </ValidatedForm>
-          )}
+        <Col md="4">
+          <Card>
+            <CardBody>
+              <CardTitle tag="h2" className="text-left text-black custom-title-bar py-2">
+                Créer ou éditer une Societe Commerciale
+              </CardTitle>
+              <br></br>
+              {loading ? (
+                <p>Loading...</p>
+              ) : (
+                <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
+                  {!isNew ? (
+                    <ValidatedField
+                      name="id"
+                      required
+                      readOnly
+                      id="societe-commerciale-id"
+                      label={translate('global.field.id')}
+                      validate={{ required: true }}
+                      className="custom-input-field"
+                    />
+                  ) : null}
+                  <ValidatedField
+                    label={translate('faeApp.societeCommerciale.codePays')}
+                    id="societe-commerciale-codePays"
+                    name="codePays"
+                    data-cy="codePays"
+                    type="text"
+                    className="custom-input-field"
+                  />
+                  <ValidatedField
+                    label={translate('faeApp.societeCommerciale.libelle')}
+                    id="societe-commerciale-libelle"
+                    name="libelle"
+                    data-cy="libelle"
+                    type="text"
+                    className="custom-input-field"
+                  />
+                  <ValidatedField
+                    label={translate('faeApp.societeCommerciale.devise')}
+                    id="societe-commerciale-devise"
+                    name="devise"
+                    data-cy="devise"
+                    type="text"
+                    className="custom-input-field"
+                  />
+                  <div className="text-center">
+                    <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/societe-commerciale" replace className="custom-back-button m-2">
+                      <FontAwesomeIcon icon="arrow-left" />
+                      &nbsp;
+                      <span className="d-none d-md-inline">
+                        <Translate contentKey="entity.action.back">Back</Translate>
+                      </span>
+                    </Button>
+                    <Button id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating} className="custom-save-button m-2">
+                      <FontAwesomeIcon icon="save" />
+                      &nbsp;
+                      <Translate contentKey="entity.action.save">Save</Translate>
+                    </Button>
+                  </div>
+                </ValidatedForm>
+              )}
+            </CardBody>
+          </Card>
         </Col>
       </Row>
     </div>
