@@ -1,0 +1,96 @@
+.toggle-container::after {
+  content: none; /* Supprime le contenu après l'élément */
+}
+
+.toggle-container {
+  border: none; /* Supprime toute bordure qui pourrait apparaître */
+  background: transparent; /* Assure qu'il n'y a pas de fond visible */
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.toggle-container span {
+  border-bottom: none; /* Supprime la bordure inférieure */
+}
+
+.custom-modal .modal-content {
+  background-color: #ffffff; /* Couleur de fond personnalisée */
+  color: #181859; /* Couleur du texte */
+  border-radius: 10px; /* Coins arrondis */
+  width: 1000px;
+  margin-left: -120px;
+  height : 1000px;
+}
+
+.custom-modal .modal-header {
+  border-bottom: 1px solid #cccccc; /* Bordure de l'en-tête */
+  color: #002D62;
+}
+
+.custom-modal .modal-footer {
+  border-top: 1px solid #cccccc; /* Bordure du pied de page */
+}
+
+.custom-modal .btn {
+  background-color: #e94560; /* Couleur personnalisée pour les boutons */
+  color: #ffffff;
+  border: none;
+}
+
+.custom-modal .btn:hover {
+  background-color: #f05454; /* Couleur de survol pour les boutons */
+}
+
+.custom-modal .modal-header {
+  color: darkblue; /* Changez cette couleur selon vos besoins */
+
+}
+
+.custom-modal .table-responsive {
+  max-height: 300px; /* Ajustez la hauteur maximale selon vos besoins */
+  overflow-y: auto;
+
+}
+
+.custom-modal .table {
+  width: 900px;
+  table-layout: fixed;
+
+}
+
+.custom-modal .table th, .custom-modal .table td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #002D62;
+}
+
+.custom-modal .modal-footer .btn {
+  background-color: #ff0000; /* Changez cette couleur selon vos besoins */
+  color: white;
+}
+
+.custom-modal-width {
+  max-width: 750px;
+  margin-right: 500px;
+  height : 1200px;
+}
+
+.jh-create-invoice {
+ width:100px;
+}
+
+.ajust1{
+  margin-left: 300px;
+}
+.butt{
+  margin-top : -5px;
+  height:30px;
+}
+
+.btn-small {
+  padding: 5px 10px;
+  font-size: 12px;
+  width: 100px;
+}

@@ -1,0 +1,45 @@
+/* Article.css */
+
+.table-wrapper {
+  width: 1300px;
+  margin-left: 400px;
+}
+
+.table-responsive {
+  margin-top: 20px;
+  width: 1240px;
+  margin-left: 10px;
+}
+
+.table thead {
+  background-color: #002d62;
+  color: #fff;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.btn-group .btn {
+  margin-right: 5px;
+}
+
+h2 {
+  margin-bottom: 0;
+  color: #0d1117;
+}
+
+.d-flex.justify-content-between.align-items-center.mb-3.p-3.custom-bg-color.text-white.rounded {
+  align-items: center;
+  width: 500px;
+}
+
+.custom-bg-color {
+  background-color: #002d62; /* Dark blue color */
+  color: white; /* Ensure text is visible on the dark background */
+}
+
+
+.bouton{
+  width: 100px;
+}

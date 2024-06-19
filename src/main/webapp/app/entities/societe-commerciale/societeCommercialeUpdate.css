@@ -1,0 +1,44 @@
+.update-form {
+  max-width: 1800px;
+  margin: auto;
+  margin-right: -130px;
+
+}
+
+.update-form .card {
+  border-radius: 15px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.custom-title-bar {
+  width: 500px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.custom-back-button {
+  background-color: #2b2b6b; /* Couleur du bouton retour */
+  border: none;
+}
+
+.custom-back-button:hover {
+  background-color: #1d1d50; /* Couleur du bouton retour au survol */
+}
+
+.custom-save-button {
+  background-color: #7f70b4; /* Couleur du bouton sauvegarder */
+  border: none;
+}
+
+.custom-save-button:hover {
+  background-color: #4a4a72; /* Couleur du bouton sauvegarder au survol */
+}
+
+.update-form .btn {
+  width: 100%;
+}
+
+.update-form .m-2 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

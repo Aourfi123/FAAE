@@ -1,0 +1,54 @@
+.payment-modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 700px;
+  color: #002D62;
+  margin-right: -10px;
+
+}
+.payment{
+  background-color: white;
+}
+.payment-card-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  margin-left: 300px;
+  margin-top : -350px;
+}
+
+.card-icons {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+
+.card-icons img {
+  width: 40px;
+  height: auto;
+  margin: 0 5px;
+  margin-top: -50px;
+}
+.pay {
+  align-items: start;
+  margin-left: 10px;
+  margin-top : 50px;
+
+}
+
+.back{
+  margin-right: 830px;
+  width: 100px;
+
+}
+.back1 {
+  margin-right: 280px;
+  width: 100px;
+  margin-top: -30px;
+}
+.auto{
+  width: 10px;
+}
+

@@ -1,0 +1,107 @@
+/* reduction.css */
+
+.table-wrapper {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.custom-bg-color {
+  background-color: #ffffff;
+}
+
+.thead-dark {
+  background-color: #343a40;
+  color: white;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.text-white {
+  color: white;
+}
+
+.btn-group .btn {
+  margin-right: 10px;
+}
+
+/* detail */
+.reduction-container {
+  width: 100%;
+  padding-top: 2rem;
+}
+
+.reduction-custom-bg-color {
+  background-color: #f8f9fa; /* Light gray color */
+  color: black; /* Ensure text is visible on the light background */
+  position: relative;
+}
+
+.reduction-card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.reduction-detail-card {
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  padding: 3rem;
+  /* Update with the correct path */
+  background-size: contain;
+  background: url('app/assets/reduu.png') no-repeat center;
+  height: 550px;
+}
+
+.reduction-entity-details dt {
+  font-weight: bold;
+}
+
+.reduction-entity-details dd {
+  margin-bottom: 1rem;
+}
+
+.reduction-button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: -50px;
+  margin-left: 650px;
+}
+
+.bt {
+  width: 200px;
+  margin-left:-400px;
+}
+.btn-group{
+  width: 50px;
+  margin-right: 70px;
+}
+.btn-primary{
+  width: 250px;
+
+}
+.mt-4 {
+  margin-top: 1.5rem !important;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem !important;
+}
+
+mb-0 {
+  color: #0d1117;
+}
+
+.update-fo {
+  max-width: 1300px;
+  margin: auto;
+  margin-bottom: 100px;
+  margin-right: 150px;
+}
+
+.update-fo .btn {
+  width: 100%;
+}

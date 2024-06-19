@@ -1,0 +1,133 @@
+.sidebar {
+  background-color: #242f44;
+  padding: 1rem;
+  height: 100vh;
+  width: 300px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  color: #ccc;
+}
+
+.sidebar-header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.navbar-logo {
+  width: 100%;
+  max-width: 150px;
+  margin-bottom: 1rem;
+}
+
+.sidebar .nav-link {
+  color: #ccc;
+  font-weight: bold;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.sidebar .nav-link:hover {
+  color: #fff;
+  background-color: #1a1a1a;
+}
+
+.sidebar .nav-link .fa {
+  margin-right: 10px;
+}
+
+.sidebar .nav-icon {
+  margin-right: 10px;
+}
+
+.sidebar .chevron-icon {
+  margin-left: auto;
+}
+
+.sidebar .nav-item {
+  margin: 10px 0;
+}
+
+.nav-text {
+  margin-left: 10px; /* Add space between icon and text */
+}
+
+.submenu {
+  background-color: #1a1a1a;
+  padding-left: 20px;
+}
+
+.submenu .nav-item {
+  margin: 0;
+}
+
+.submenu .nav-link {
+  padding: 5px 10px;
+  color: #ccc;
+  font-weight: normal;
+}
+
+.submenu .nav-link:hover {
+  color: #fff;
+  background-color: #333;
+}
+
+.tarif-container {
+  width: 400px;
+  padding-top: 2rem;
+  margin-left: 120px;
+}
+
+.tarif-detail-card {
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  background-size: contain;
+  background: url('app/assets/doo.jpg') no-repeat center;
+  height: 470px;
+
+  background-size: 40% 80%;
+}
+
+.tarif-button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  margin-top: 70px;
+  margin-left: 700px;
+}
+
+.mt-4 {
+  margin-top: 1.5rem !important;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem !important;
+  width: 900px;
+}
+
+.navbar-logo {
+  image: url('app/assets/ouipneu-michelin.png');
+}
+
+
+.update-for {
+  max-width: 1300px;
+  margin: auto;
+  margin-right: 140px;
+}
+
+.update-for .btn {
+  width: 100%;
+}
+
+.jh-create-invoice {
+  margin-left: 10px;
+}
+
+.btn-block {
+  width: 100%;
+}
